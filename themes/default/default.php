@@ -6,7 +6,8 @@
     <link rel='stylesheet' type='text/css' href='<?php echo $this->theme_dir;?>style.css' />
     </head>
     <body>
-        <h1><?php echo $this->title; ?></h1>
+        <a class="settings-link" href="?page=settings"><?php echo $this->locale->settings?></a>
+        <h1><a href="/"><?php echo $this->title; ?></a></h1>
         <?php 
         echo $this->content;
         $from = "2012";

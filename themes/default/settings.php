@@ -33,21 +33,45 @@
 
     <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->projects ?></h2>
-    <?php if ($this->projects): ?>
-        
-            <?php foreach ($this->projects as $project):  ?>
-         <form action="?page=settings" method="post">
-        <div>
-            <input type="hidden" name="type" value="projects" />
-            <input type="hidden" name="action" value="update" />
-            <?php project_field($this->data, 'name', $this->locale->project_name); ?>
-            <?php project_field($this->data, 'path', $this->locale->project_path); ?>
-            <?php project_field($this->data, 'icon', $this->locale->project_icon); ?>
-            <input type="submit" value="<?php echo $this->locale->save ?>"/>
-            
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td><?php echo $this->locale->project_name ?></td>
+                    <td><?php echo $this->locale->project_path ?></td>
+                    <td><?php echo $this->locale->project_icon ?></td>
+                    <td>&#160;</td>
+                </tr>
+            </thead>
+            <tbody>
+    <?php if ($this->projects): ?>        
+            <?php foreach ($this->projects as $id => $project):  ?>
+                <tr>
+                <?php if ($this->get->type=='projects' && $this->get->action=='edit' && $this->get->id==$id): ?>
+                    <td>
+                        <input type="hidden" name="type" value="projects" />
+                        <input type="hidden" name="action" value="update" />
+                        <?php field($project, $this->post, 'name', true) ?>
+                    </td>
+                    <td><?php field($project, $this->post, 'path', true) ?></td>
+                    <td><?php field($project, $this->post, 'icon') ?></td>
+                    <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
+                <?php else: ?>            
+                    <td><?php echo isset($project['name']) ? $project['name'] : '' ?></td>
+                    <td><?php echo isset($project['path']) ? $project['path'] : '' ?></td>
+                    <td><?php echo isset($project['icon']) ? $project['icon'] : ''  ?></td>
+                    <td>
+                        <a href="?page=settings&amp;type=projects&amp;action=edit&amp;id=<?php echo $id; ?>"><?php echo $this->locale->edit ?></a>
+                        <a href="?page=settings&amp;type=projects&amp;action=delete&amp;id=<?php echo $id; ?>"><?php echo $this->locale->delete ?></a>
+                    </td>
+                <?php endif; ?>
+                 </tr>
             <?php endforeach; ?> 
+            </tbody>
+        </table>
     <?php endif; ?>
+    </form>
+    
+    <?php /*
     <form action="?page=settings" method="post">
         <div>
         <h3><?php echo $this->locale->create ?></h3>
@@ -59,6 +83,8 @@
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
+     * 
+     */ ?>
 
     <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->folders ?>:</h2>
@@ -71,7 +97,8 @@
     </form>
 </div>
 <?php
-    function project_field($data, $key, $label){
-        $tmp = $data->$key ? htmlspecialchars($data->$key, ENT_QUOTES, 'UTF-8') : '';
-        echo '<label>'. $label .':<input type="text" name="'.$key.'" value="'. $tmp . '"/></label>';
+    function field($data, $post, $key, $required=false){
+        $required = $required ? 'required' : '';
+        $data[$key] = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
+        echo '<input type="text" name="'.$key.'" value="'. htmlspecialchars($data[$key], ENT_QUOTES, 'UTF-8') . '" '.$required.'/>';
     }

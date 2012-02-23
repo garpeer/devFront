@@ -6,5 +6,8 @@ return Array(
     'save'=>'Save',
     'cancel'=>'Cancel',
     'theme'=>'Theme',
-    'locale'=>'Locale'
+    'locale'=>'Locale',
+    'project_name'=>'Name',
+    'project_path'=>'Path',
+    'project_icon'=>'Image',
 );

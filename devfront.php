@@ -106,7 +106,8 @@ class devFront{
         $view->assign('locales',$locales);
         $view->assign('projects',$this->projects);
         $view->assign('folders',$this->folders);
-        $view->assign('data',$this->post);
+        $view->assign('post',$this->post);
+        $view->assign('get',$this->get);
         $view->assign('c_theme',$this->config['theme']);
         $view->assign('c_locale',$this->config['locale']);
         $view->display($this->template('settings.php'));
@@ -134,7 +135,6 @@ class devFront{
         $this->locale = new devLocale(@include $this->file('locale/'.$this->config['locale'].".php"));
     }
     protected function save_settings_projects(&$data){
-        var_dump($data);
         switch($data->action){
             case 'create':
                 if ($data->name && $data->path){
