@@ -5,10 +5,15 @@ class devFront{
     protected $servername;
     protected $configfile = "config.php";
     protected $dir;
+    protected $get;
+    protected $post;
     public function __construct(){
         try{
             require 'view.php';
             require 'locale.php';
+            require 'helper.php';
+            $this->post = new devHelper($_POST);
+            $this->get = new devHelper($_GET);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
             $this->configfile = $this->file($this->configfile);
             ob_start();
@@ -26,7 +31,7 @@ class devFront{
                 }
             }
             $this->locale = new devLocale(@include $this->file('locale/'.$this->config['locale'].".php"));
-            $page = isset($_GET['page']) ? $_GET['page'].'_page' : 'index_page';
+            $page = $this->get->page ? $this->get->page.'_page' : 'index_page';
             if (method_exists($this, $page)){
                 $this->$page();
             }else{
@@ -71,6 +76,9 @@ class devFront{
         }
     }
     protected function settings_page(){
+        if ($this->post->settings_action){
+            $this->save_settings($this->post);
+        }
         $view = $this->get_view();
         $dirs = new DirectoryIterator($this->file('themes'));
         $themes = Array();
@@ -95,6 +103,29 @@ class devFront{
         $view->assign('c_theme',$this->config['theme']);
         $view->assign('c_locale',$this->config['locale']);
         $view->display($this->template('settings.php'));
+    }
+    protected function save_settings($data){
+        $action = $data->settings_action;
+        switch ($action){
+            case 'basic': $this->save_settings_basic($data);
+                break;
+             case 'projects': $this->save_settings_basic($data->projects);
+                break;
+            case 'folders': $this->save_settings_basic($data->folders);
+                break;
+        }
+    }
+    protected function save_settings_basic($data){
+        $theme = $data->theme;
+        $locale = $data->locale;
+        if ($theme){
+            $this->config['theme'] = $data->theme;
+        }
+        if ($locale){
+            $this->config['locale'] = $data->locale;
+        }
+        $this->save_config($this->config);
+        $this->locale = new devLocale(@include $this->file('locale/'.$this->config['locale'].".php"));
     }
     protected function install(){
         $this->save_config(Array('theme'=>'default','locale' =>'en'));
