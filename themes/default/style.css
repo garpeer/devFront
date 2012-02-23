@@ -1,0 +1,134 @@
+body{
+    min-width: 400px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f2f5f6; /* Old browsers */
+background: -moz-radial-gradient(top center, ellipse cover, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, top center center, 0px, center center, 100%, color-stop(0%,#f2f5f6), color-stop(37%,#e3eaed), color-stop(100%,#c8d7dc)); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(top center, ellipse cover, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(top center, ellipse cover, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%); /* Opera 12+ */
+background: -ms-radial-gradient(top center, ellipse cover, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%); /* IE10+ */
+background: radial-gradient(top center, ellipse cover, #f2f5f6 0%,#e3eaed 37%,#c8d7dc 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=0 ); /* IE6-9 fallback on horizontal gradient */
+font-family: arial, sans;
+font-size: 12px;
+}
+h1{
+    color:#FFF;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 30px;
+    text-shadow: -1px 1px 2px #777;
+}
+h2{
+    color:#888;
+    font-weight: normal;
+    font-size:16px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #CCC;
+    text-shadow: 1px 1px 1px #FFF;
+}
+.footer{
+    margin-top: 50px;
+    color:#AAA;
+    text-shadow: 1px 1px 1px #FFF;
+    text-align: center;
+}
+ul{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.projects li{
+    display: inline-block;
+    margin: 0 10px 20px 10px;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    vertical-align: bottom;
+}
+.projects a{
+    display: block;
+    height: 20px;
+    padding-top: 130px;
+    width: 100%;
+    color: #666;
+    vertical-align: bottom;
+    text-decoration: none;
+    border: 1px solid gray;
+    border-radius: 10px;
+    background-position: left top, center 30%;
+    background-color: rgba(255,255,255,0.4);
+    background-image: url(images/glossy.png), url(images/default.png); /* gear clipart from http://www.clker.com/clipart-15720.html */
+    background-repeat: no-repeat;
+    outline: none;
+}
+.projects a:hover,
+.projects a:focus{
+    box-shadow: 0 0 10px #FFD341;
+    border-color: #BE7B00;
+    position: relative;
+    top: 1px;
+    color: #333;
+}
+.folders {
+        opacity: 0.5;
+        padding: 20px;
+	-moz-column-count: 4;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 4;
+	-webkit-column-gap: 20px;
+	column-count: 4;
+	column-gap: 20px;
+        background-color: rgba(255,255,255,0.5);
+        border-radius: 10px;
+        border-top: 1px solid #FFF;
+        border-bottom: 1px solid #AAA;
+        box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
+}
+.folders:hover{
+    opacity: 1.0;
+}
+.folders li{
+    margin: 5px 0;
+}
+.folders a{
+    color: #666;
+    text-decoration: none;
+    padding: 3px 10px;
+}
+.folders a:hover,
+.folders a:focus{
+    background-color: #FFF;
+    border-radius: 5px;
+    border-left: 5px solid #FFD341;
+    padding-left: 5px;
+    color: #333;
+}
+.settings-page h2{
+    margin-bottom:10px;
+    margin-top: 30px;
+}
+.settings-page form div{
+    padding: 10px;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 10px;
+    margin-bottom:10px;
+}
+.settings-page select,
+.settings-page input{
+    background-color: #FFF;
+    border: 1px solid #AAA;
+    color:#333;
+}
+.settings-page input[type=submit]{
+    cursor: pointer;
+}
+.settings-page label{
+    margin-right: 20px;
+    color: #333;
+}
+.settings-page select{
+    min-width: 100px;
+}

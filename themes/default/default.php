@@ -2,8 +2,8 @@
     <head>
     <meta charset="utf-8" />
     <title><?php echo $this->title; ?></title>
-    <link rel="shortcut icon" href="/lister/favicon.ico" />
-    <link rel='stylesheet' type='text/css' href='/lister/style.css' />
+    <link rel="shortcut icon" href="<?php echo $this->theme_dir;?>favicon.ico" />
+    <link rel='stylesheet' type='text/css' href='<?php echo $this->theme_dir;?>style.css' />
     </head>
     <body>
         <h1><?php echo $this->title; ?></h1>

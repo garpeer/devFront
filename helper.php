@@ -7,4 +7,10 @@ class devHelper{
     public function __get($key){
         return isset($this->data[$key]) ? $this->data[$key] : null;
     }
+    public function __set($key, $value){
+        $this->data[$key] = $value;
+    }
+    public function delete($key){
+        unset($this->data[$key]);
+    }
 }
