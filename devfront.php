@@ -1,5 +1,22 @@
 <?php
-
+/*
+ * devFront localhost frontend
+ * Copyright (C) 2012 Gergely Aradszki (garpeer)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ */
 class devFront {
 
     protected $config;
@@ -13,14 +30,15 @@ class devFront {
     protected $folders;
     protected $notices = Array();
 
-    public function __construct($url = 'http://localhost/devfront/') {
+    public function __construct($url = false) {
         try {
             require 'classes/view.php';
             require 'classes/locale.php';
             require 'classes/helper.php';
-            $this->url = $url;
             $this->request = new devHelper($_REQUEST);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
+            
+            $this->url = $url ? $url : '/devfront/';
             $this->configfile = $this->file($this->configfile);
             ob_start();
             if (!file_exists($this->configfile)) {

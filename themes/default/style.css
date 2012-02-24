@@ -1,8 +1,28 @@
-body{
-    min-width: 400px;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
+/*
+ * devFront localhost frontend
+ * Copyright (C) 2012 Gergely Aradszki (garpeer)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ */
+ html, body {
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 100%;
+}
+ body{
     background: #f2f5f6; /* Old browsers */
 background: -moz-radial-gradient(top center, ellipse cover, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); /* FF3.6+ */
 background: -webkit-gradient(radial, top center center, 0px, center center, 100%, color-stop(0%,#f2f5f6), color-stop(37%,#e3eaed), color-stop(100%,#c8d7dc)); /* Chrome,Safari4+ */
@@ -13,6 +33,12 @@ background: radial-gradient(top center, ellipse cover, #f2f5f6 0%,#e3eaed 37%,#c
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=0 ); /* IE6-9 fallback on horizontal gradient */
 font-family: arial, sans;
 font-size: 12px;
+}
+.wrapper{
+    min-width: 400px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 20px;
 }
 h1{
     color:#FFF;
