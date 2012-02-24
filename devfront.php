@@ -23,7 +23,7 @@
 class devFront {
     /**
      * @brief configuration
-     * @var Array 
+     * @var array 
      */
     protected $config;
     /**
@@ -33,22 +33,22 @@ class devFront {
     protected $locale;
     /**
      * @brief server name (eg. localhost)
-     * @var String 
+     * @var string  
      */
     protected $servername;
     /**
      * @brief devfront url for images & css
-     * @var String 
+     * @var string  
      */
     protected $url;
     /**
      * @brief configuration file
-     * @var String 
+     * @var string  
      */
     protected $configfile = "config.php";
     /**
      * @brief app dir
-     * @var String 
+     * @var string  
      */
     protected $dir;
     /**
@@ -58,23 +58,23 @@ class devFront {
     protected $request;
     /**
      * @brief projects
-     * @var Array 
+     * @var array 
      */
     protected $projects;
      /**
      * @brief folders
-     * @var Array 
+     * @var array 
      */
     protected $folders;
      /**
      * @brief notices
-     * @var Array 
+     * @var array 
      */
     protected $notices = Array();
 
      /**
       * @brief constructor
-      * @param String $url devfront url for images & css
+      * @param string $url devfront url for images & css
       */
     public function __construct($url = false) {
         try {            
@@ -328,8 +328,8 @@ class devFront {
     }
     /**
      * @brief get app file
-     * @param String $file filename
-     * @return String 
+     * @param string $file filename
+     * @return string 
      */
     protected function file($file=false) {
         if (!isset($this->dir)) {
@@ -343,8 +343,8 @@ class devFront {
      * 
      * if file is not found, falls back to the default theme's file
      * 
-     * @param String $file filename
-     * @return String 
+     * @param string $file filename
+     * @return string 
      */
     protected function template($file) {
         $template = $this->file("themes/" . $this->config['theme'] . "/" . $file);
@@ -355,7 +355,7 @@ class devFront {
     }
     /**
      * @brief save config to configuration file
-     * @param Array $config 
+     * @param array $config 
      */
     protected function save_config($config) {
         if (!file_put_contents($this->configfile, serialize($config))) {
@@ -377,8 +377,8 @@ class devFront {
     }
     /**
      * @brief send notification message
-     * @param String $msg
-     * @param Int $level 
+     * @param string $msg
+     * @param int $level 
      */
     protected function notify($msg, $level = 0) {
         $this->notices[] = Array('message' => $msg, 'level' => $level);

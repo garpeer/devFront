@@ -17,17 +17,42 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  */
+/**
+ * @brief helper object
+ */
 class devHelper{
+    /**
+     * @brief objects data
+     * @var array 
+     */
     protected $data;
+    /**
+     * @brief constructor
+     * @param array $data initial data
+     */
     public function __construct($data){
         $this->data = $data;
     }
+    /**
+     * @brief getter
+     * @param String $key
+     * @return mixed 
+     */
     public function __get($key){
         return isset($this->data[$key]) ? $this->data[$key] : null;
     }
+    /**
+     * @brief setter
+     * @param string $key
+     * @param mixed $value 
+     */
     public function __set($key, $value){
         $this->data[$key] = $value;
     }
+    /**
+     * @brief delete data
+     * @param string $key 
+     */
     public function delete($key){
         unset($this->data[$key]);
     }
