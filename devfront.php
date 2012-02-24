@@ -252,8 +252,8 @@ class devFront {
     }
 
     protected function install() {
-        $this->save_config(Array('theme' => 'default', 'locale' => 'en'));
-        throw new Exception('stug');
+        $this->config = Array('theme' => 'default', 'locale' => 'en');
+        $this->save_config($this->config);
     }
 
     protected function file($file=false) {
@@ -265,15 +265,19 @@ class devFront {
     }
 
     protected function template($file) {
-        return $this->file("themes/" . $this->config['theme'] . "/" . $file);
+        $template = $this->file("themes/" . $this->config['theme'] . "/" . $file);
+        if (!file_exists($template) && $this->config['theme'] != 'default'){
+            $this->file("themes/default/" . $file);
+        }
+        return $template;
     }
 
     protected function save_config($config) {
         if (!file_put_contents($this->configfile, serialize($config))) {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
         } else {
-            $this->projects = $config['projects'];
-            $this->folders = $config['folders'];
+            $this->projects = isset ($config['projects']) ? $config['projects'] : false;
+            $this->folders = isset ($config['folders']) ? $config['folders'] : false;
         }
     }
 
