@@ -165,3 +165,14 @@ ul{
 .settings-page select{
     min-width: 100px;
 }
+.notices{
+    list-style: none;
+    margin: 20px 50px;
+    color:#666;
+    padding: 0;
+}
+.notices li{
+    background-color: rgba(255,255,255,0.5);
+    margin-bottom: 1px;    
+    padding: 5px 10px;
+}

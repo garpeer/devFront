@@ -9,11 +9,12 @@ class devFront{
     protected $request;
     protected $projects;
     protected $folders;
+    protected $notices = Array();
     public function __construct($url = 'http://localhost/devfront/'){
         try{
-            require 'view.php';
-            require 'locale.php';
-            require 'helper.php';
+            require 'classes/view.php';
+            require 'classes/locale.php';
+            require 'classes/helper.php';
             $this->url = $url;
             $this->request = new devHelper($_REQUEST);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
@@ -46,13 +47,14 @@ class devFront{
             $view = $this->get_view();
             $view->assign('title', $this->servername);
             $view->assign('content', $content);
+            $view->assign('notices', $this->notices);
             $view->display($this->template('default.php'));
         }catch(Exception $e){
             echo 'Error: '. $e->getMessage();
         }
 
     }
-    protected function index_page(){        
+    protected function index_page(){   
         if ($this->projects){
             $view = $this->get_view();
             $view->assign('projects',$this->projects);
@@ -115,7 +117,7 @@ class devFront{
                 break;
              case 'projects': $this->save_settings_projects($data);
                 break;
-            case 'folders': $this->save_settings_folders($data->folders);
+            case 'folders': $this->save_settings_folders($data);
                 break;
         }
     }
@@ -130,6 +132,51 @@ class devFront{
         }
         $this->save_config($this->config);
         $this->locale = new devLocale(@include $this->file('locale/'.$this->config['locale'].".php"));
+    }
+    protected function save_settings_folders(&$data){
+        switch($data->action){
+            case 'create':
+                if ($data->name && $data->path && $data->pattern){
+                    if (file_exists($data->path)){
+                        $folder = Array(
+                            'name' => $data->name,
+                            'path'=> $data->path,
+                            'pattern'=> $data->pattern
+                        );
+                        $this->config['folders'][] = $folder;
+                        $data->delete('name');
+                        $data->delete('path');
+                        $data->delete('pattern');
+
+                        $this->save_config($this->config);
+                        $this->notify($this->locale->item_added);
+                    }else{
+                        $this->notify($this->locale->folder_does_not_exists,3);
+                    }
+                }
+            break;
+            case "update":
+                if ($data->name && $data->path && $data->pattern){
+                    if (file_exists($data->path)){
+                        $folder = Array(
+                            'name' => $data->name,
+                            'path'=> $data->path,
+                            'pattern'=> $data->pattern
+                        );
+                        $this->config['folders'][$data->id] = $folder;
+                       $this->save_config($this->config);
+                        $this->notify($this->locale->item_updated,1);
+                    }else{
+                        $this->notify($this->locale->folder_does_not_exists,3);
+                    }
+                }
+                break;
+            case "delete": 
+                unset($this->config['folders'][$data->id]);
+                $this->save_config($this->config);
+                $this->notify($this->locale->item_deleted,2);
+                break;
+        }
     }
     protected function save_settings_projects(&$data){
         switch($data->action){
@@ -146,6 +193,7 @@ class devFront{
                     $data->delete('icon');
                 }
                 $this->save_config($this->config);
+                $this->notify($this->locale->item_added);
             break;
             case "update":
                 if ($data->name && $data->path){
@@ -157,10 +205,12 @@ class devFront{
                     $this->config['projects'][$data->id] = $project;
                 }
                 $this->save_config($this->config);
+                $this->notify($this->locale->item_updated,1);
                 break;
             case "delete": 
                 unset($this->config['projects'][$data->id]);
                 $this->save_config($this->config);
+                $this->notify($this->locale->item_deleted, 2);
                 break;
         }
     }
@@ -175,9 +225,6 @@ class devFront{
         }
        return $this->dir. $file;
     }
-    protected function theme_dir(){
-        
-    }
     protected function template($file){
         return $this->file("themes/".$this->config['theme'] ."/". $file);
     }
@@ -186,7 +233,7 @@ class devFront{
             throw new Exception ('failed to save config data to'. $this->file($this->configfile));
         }else{            
             $this->projects = $config['projects'];
-            //$this->folders = $config['folders'];
+            $this->folders = $config['folders'];
         }
     }
     protected function get_view(){
@@ -194,5 +241,8 @@ class devFront{
         $view->assign('theme_dir',$this->url. "themes/".$this->config['theme'] ."/");
         $view->assignRef('locale',$this->locale);
         return $view;
+    }
+    protected function notify($msg, $level = 0){
+        $this->notices[] = Array('message' => $msg, 'level'=> $level);
     }
 }

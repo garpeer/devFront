@@ -74,7 +74,7 @@
     
     <form action="?page=settings" method="post">
         <div>
-        <h3><?php echo $this->locale->create ?></h3>
+        <h3><?php echo $this->locale->create_project ?></h3>
         <input type="hidden" name="type" value="projects" />
         <input type="hidden" name="action" value="create" />
         <?php field(false, $this->request, 'name', true, $this->locale->project_name); ?>
@@ -84,14 +84,57 @@
         </div>
     </form>
 
-    <form action="?page=settings" method="post">
-        <h2><?php echo $this->locale->folders ?>:</h2>
-    <?php if ($this->folders): ?>
-            <?php foreach ($this->folders as $folder):  ?>
+     <form action="?page=settings" method="post">
+        <h2><?php echo $this->locale->folders ?></h2>
+        <table>
+            <thead>
+                <tr>
+                    <td><?php echo $this->locale->folder_name ?></td>
+                    <td><?php echo $this->locale->folder_path ?></td>
+                    <td><?php echo $this->locale->folder_pattern ?></td>
+                    <td>&#160;</td>
+                </tr>
+            </thead>
+            <tbody>
+   <?php if ($this->folders): ?>        
+            <?php foreach ($this->folders as $id => $folder):  ?>
+                <tr>
+                <?php if ($this->request->type=='folders' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
+                    <td>
+                        <input type="hidden" name="type" value="folders" />
+                        <input type="hidden" name="action" value="update" />
+                        <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                        <?php field($folder, $this->request, 'name', true) ?>
+                    </td>
+                    <td><?php field($folder, $this->request, 'path', true) ?></td>
+                    <td><?php field($folder, $this->request, 'pattern') ?></td>
+                    <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
+                <?php else: ?>            
+                    <td><?php echo isset($folder['name']) ? $folder['name'] : '' ?></td>
+                    <td><?php echo isset($folder['path']) ? $folder['path'] : '' ?></td>
+                    <td><?php echo isset($folder['pattern']) ? $folder['pattern'] : ''  ?></td>
+                    <td>
+                        <a href="?page=settings&amp;type=folders&amp;action=edit&amp;id=<?php echo $id; ?>"><?php echo $this->locale->edit ?></a>
+                        <a href="?page=settings&amp;type=folders&amp;action=delete&amp;id=<?php echo $id; ?>"><?php echo $this->locale->delete ?></a>
+                    </td>
+                <?php endif; ?>
+                 </tr>
             <?php endforeach; ?> 
-    <?php endif; ?>       
+            </tbody>
+        </table>
+    <?php endif; ?>
+    </form>
+    
+    <form action="?page=settings" method="post">
+        <div>
+        <h3><?php echo $this->locale->create_folder ?></h3>
         <input type="hidden" name="type" value="folders" />
+        <input type="hidden" name="action" value="create" />
+        <?php field(false, $this->request, 'name', true, $this->locale->folder_name); ?>
+        <?php field(false, $this->request, 'path', true, $this->locale->folder_path); ?>
+        <?php field(false, $this->request, 'pattern', false, $this->locale->folder_pattern); ?>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
+        </div>
     </form>
 </div>
 <?php
