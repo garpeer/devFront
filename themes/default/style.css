@@ -173,6 +173,31 @@ ul{
 }
 .notices li{
     background-color: rgba(255,255,255,0.5);
+    border-radius: 5px;
     margin-bottom: 1px;    
     padding: 5px 10px;
+}
+.notice-level-1{
+    background-color: rgba(0,255,0,0.3) !important;
+    color:#333;
+    border: 1px solid #008000;
+}
+.notice-level-2{
+    background-color: rgba(255,255,0,0.3) !important;
+    color:#333;
+    border: 1px solid #808000;
+}
+.notice-level-3{
+    background-color: rgba(255,0,0,0.3) !important;
+    color:#333;
+    border: 1px solid #800000;
+}
+.no-item{
+    padding: 20px 30px;
+    text-align: center;
+    background-color: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #AAA;
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
 }

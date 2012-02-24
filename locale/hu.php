@@ -5,6 +5,8 @@ return Array(
     'settings'=>'Beállítások',
     'save'=>'Mentés',
     'cancel'=>'Mégsem',
+    'edit'=>'Szerkesztés',
+    'delete'=>'Törlés',
     'theme'=>'Téma',
     'locale'=>'Nyelv',
     'create_project'=>'Új projekt',    
@@ -15,4 +17,8 @@ return Array(
     'folder_name'=>'Név',
     'folder_path'=>'Mappa',
     'folder_pattern'=>'Pattern',
+    'folder_does_not_exists' => 'A mappa nem létezik.',
+    'item_added' => 'Új elem létrehozva.',
+    'item_updated' => 'Elem sikeresen frissítve.',
+    'item_deleted' => 'Elem törölve.',
 );
