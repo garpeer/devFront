@@ -151,12 +151,11 @@ class devFront {
             foreach ($this->folders as &$folder) {                
                 $folder['pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
                 $exclude = isset($folder['exclude']) ? $folder['exclude'] : null;
-                $exclude_projects = isset($folder['exclude_projects']) ? $folder['exclude_projects'] : false;
                 if (file_exists($folder['path'])){
                     $dirs = new DirectoryIterator($folder['path']);
                     foreach ($dirs as $dir){
                         $dirname = $dir->getBasename();
-                        if ( (!$exclude || !in_array($dirname, $exclude)) && $dir->isDir() && !$dir->isDot() && (!$exclude_projects || !isset($projects[$dirname]))){
+                        if ( (!$exclude || !in_array($dirname, $exclude)) && $dir->isDir() && !$dir->isDot() ){
                             $folder['dirs'][$dirname] = str_replace('%FOLDER%', $dirname, $folder['pattern']);
                         }
                     }
