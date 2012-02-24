@@ -19,7 +19,6 @@
  */
 /**
  * @brief View class
- *
  */
 class devView{
     /**
