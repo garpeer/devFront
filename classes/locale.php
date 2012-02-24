@@ -17,11 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  */
+/**
+ * {vrief locale object
+ */
 class devLocale{
+    /**
+     * @brief translations
+     * @var array 
+     */
     protected $__strings;
+    /**
+     * @brief constructor
+     * @param array $strings 
+     */
     public function __construct($strings){
         $this->__strings = $strings;
     }
+    /**
+     * @brief getter
+     * 
+     * if key exists, returns translated, else returns key
+     * @param string $key
+     * @return string 
+     */
     public function __get($key){
         return isset($this->__strings[$key]) ? $this->__strings[$key] : $key;
     }
