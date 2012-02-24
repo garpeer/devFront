@@ -357,7 +357,7 @@ class devFront {
     protected function template($file) {
         $template = $this->file("themes/" . $this->config['theme'] . "/" . $file);
         if (!file_exists($template) && $this->config['theme'] != 'default'){
-            $this->file("themes/default/" . $file);
+            $template = $this->file("themes/default/" . $file);
         }
         return $template;
     }
