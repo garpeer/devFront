@@ -141,13 +141,15 @@ class devFront {
             $projects = $this->projects;
             foreach ($projects as &$project){
                 $project['icon'] = $project['icon'] ? $this->url . "project_images/".$project['icon']: false;
+                $project['path'] = isset($project['path']) ? str_replace('%HOST%', 'http://'.$this->servername, $project['path']) : '';
             }
             $view->assign('projects', $projects);
             $view->display($this->template('projects.php'));
         }
         if ($this->folders) {
 
-            foreach ($this->folders as &$folder) {
+            foreach ($this->folders as &$folder) {                
+                $folder['pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
                 $exclude = isset($folder['exclude']) ? $folder['exclude'] : null;
                 $exclude_projects = isset($folder['exclude_projects']) ? $folder['exclude_projects'] : false;
                 if (file_exists($folder['path'])){
@@ -155,7 +157,7 @@ class devFront {
                     foreach ($dirs as $dir){
                         $dirname = $dir->getBasename();
                         if ( (!$exclude || !in_array($dirname, $exclude)) && $dir->isDir() && !$dir->isDot() && (!$exclude_projects || !isset($projects[$dirname]))){
-                            $folder['dirs'][] = $dirname;
+                            $folder['dirs'][$dirname] = str_replace('%FOLDER%', $dirname, $folder['pattern']);
                         }
                     }
                 }else{

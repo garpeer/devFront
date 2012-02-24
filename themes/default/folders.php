@@ -23,8 +23,8 @@ foreach ($this->folders as $folder){
     echo '<h2>'.$folder['name'].'</h2>';
     if ($folder['dirs']){
         echo '<ul class="folders">';
-        foreach ($folder['dirs'] as $dir){
-            echo '<li><a href="'.sprintf($folder['pattern'],$dir).'">'.$dir.'</a></li>';
+        foreach ($folder['dirs'] as $name => $path){
+            echo '<li><a href="'.$this->clean($path).'">'.$this->clean($name).'</a></li>';
         }
         echo '</ul>';
     }else{
