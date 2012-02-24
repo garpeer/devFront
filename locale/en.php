@@ -7,7 +7,8 @@ return Array(
     'cancel'=>'Cancel',
     'theme'=>'Theme',
     'locale'=>'Locale',
+    'create' => 'New project',
     'project_name'=>'Name',
-    'project_path'=>'Path',
+    'project_path'=>'URL',
     'project_icon'=>'Image',
 );

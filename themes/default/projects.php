@@ -7,7 +7,7 @@ if ($this->projects){
             $name['path'] = "http://".$id. ".loc/";
         }
 
-        $style = isset($name['icon']) ? 'style="background-image: url(/lister/images/glossy.png), url(/lister/images/'. $name['icon'] .');"' : '';
+        $style = (isset($name['icon']) && $name['icon']) ? 'style="background-image: url(/lister/images/glossy.png), url(/lister/images/'. $name['icon'] .');"' : '';
 
         echo '<li><a href="'.$name['path'].'" '.$style.'>'.$name['name'].'</a></li>';
     }

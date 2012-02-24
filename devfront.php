@@ -6,8 +6,7 @@ class devFront{
     protected $url;
     protected $configfile = "config.php";
     protected $dir;
-    protected $get;
-    protected $post;
+    protected $request;
     protected $projects;
     protected $folders;
     public function __construct($url = 'http://localhost/devfront/'){
@@ -16,8 +15,7 @@ class devFront{
             require 'locale.php';
             require 'helper.php';
             $this->url = $url;
-            $this->post = new devHelper($_POST);
-            $this->get = new devHelper($_GET);
+            $this->request = new devHelper($_REQUEST);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
             $this->configfile = $this->file($this->configfile);
             ob_start();
@@ -37,7 +35,7 @@ class devFront{
             $this->locale = new devLocale(@include $this->file('locale/'.$this->config['locale'].".php"));
             $this->projects = isset($this->config['projects']) ? $this->config['projects'] : null;              
             $this->folders = isset($this->config['folders']) ? $this->config['folders'] : null;  
-            $page = $this->get->page ? $this->get->page.'_page' : 'index_page';
+            $page = $this->request->page ? $this->request->page.'_page' : 'index_page';
             if (method_exists($this, $page)){
                 $this->$page();
             }else{
@@ -80,8 +78,8 @@ class devFront{
         }
     }
     protected function settings_page(){
-        if ($this->post->type){
-            $this->save_settings($this->post);
+        if ($this->request->type){
+            $this->save_settings($this->request);
         }
         $view = $this->get_view();
         $dirs = new DirectoryIterator($this->file('themes'));
@@ -106,8 +104,7 @@ class devFront{
         $view->assign('locales',$locales);
         $view->assign('projects',$this->projects);
         $view->assign('folders',$this->folders);
-        $view->assign('post',$this->post);
-        $view->assign('get',$this->get);
+        $view->assign('request',$this->request);
         $view->assign('c_theme',$this->config['theme']);
         $view->assign('c_locale',$this->config['locale']);
         $view->display($this->template('settings.php'));
@@ -150,8 +147,22 @@ class devFront{
                 }
                 $this->save_config($this->config);
             break;
+            case "update":
+                if ($data->name && $data->path){
+                    $project = Array(
+                        'name' => $data->name,
+                        'path'=> $data->path,
+                        'icon'=> $data->icon
+                    );
+                    $this->config['projects'][$data->id] = $project;
+                }
+                $this->save_config($this->config);
+                break;
+            case "delete": 
+                unset($this->config['projects'][$data->id]);
+                $this->save_config($this->config);
+                break;
         }
-        echo "OK";
     }
     protected function install(){
         $this->save_config(Array('theme'=>'default','locale' =>'en'));
@@ -173,6 +184,9 @@ class devFront{
     protected function save_config($config){
         if (!file_put_contents($this->configfile, serialize($config))){
             throw new Exception ('failed to save config data to'. $this->file($this->configfile));
+        }else{            
+            $this->projects = $config['projects'];
+            //$this->folders = $config['folders'];
         }
     }
     protected function get_view(){

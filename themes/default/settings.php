@@ -46,14 +46,15 @@
     <?php if ($this->projects): ?>        
             <?php foreach ($this->projects as $id => $project):  ?>
                 <tr>
-                <?php if ($this->get->type=='projects' && $this->get->action=='edit' && $this->get->id==$id): ?>
+                <?php if ($this->request->type=='projects' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
                     <td>
                         <input type="hidden" name="type" value="projects" />
                         <input type="hidden" name="action" value="update" />
-                        <?php field($project, $this->post, 'name', true) ?>
+                        <input type="hidden" name="id" value="<?php echo $id; ?>" />
+                        <?php field($project, $this->request, 'name', true) ?>
                     </td>
-                    <td><?php field($project, $this->post, 'path', true) ?></td>
-                    <td><?php field($project, $this->post, 'icon') ?></td>
+                    <td><?php field($project, $this->request, 'path', true) ?></td>
+                    <td><?php field($project, $this->request, 'icon') ?></td>
                     <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
                 <?php else: ?>            
                     <td><?php echo isset($project['name']) ? $project['name'] : '' ?></td>
@@ -71,20 +72,17 @@
     <?php endif; ?>
     </form>
     
-    <?php /*
     <form action="?page=settings" method="post">
         <div>
         <h3><?php echo $this->locale->create ?></h3>
         <input type="hidden" name="type" value="projects" />
         <input type="hidden" name="action" value="create" />
-        <?php project_field($this->data, 'name', $this->locale->project_name); ?>
-        <?php project_field($this->data, 'path', $this->locale->project_path); ?>
-        <?php project_field($this->data, 'icon', $this->locale->project_icon); ?>
+        <?php field(false, $this->request, 'name', $this->locale->project_name); ?>
+        <?php field(false, $this->request, 'path', $this->locale->project_path); ?>
+        <?php field(false, $this->request, 'icon', $this->locale->project_icon); ?>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
-     * 
-     */ ?>
 
     <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->folders ?>:</h2>
