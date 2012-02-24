@@ -1,0 +1,23 @@
+                   
+                               INSTALLATION
+
+                                 devFront
+
+
+- Copy the files to a folder (eg. /var/www/devfront/ , must be accessible by 
+  the server)
+- Move the index.php to the web root (usually /var/www/)
+- Edit index.php, give the correct path for the 'require'
+- If you installed the script in a folder other than 'devfront', pass the url 
+  path to the constructor as a parameter (with trailing slash)
+- Script folder must be writable to create the config.php file
+- The first time the script is run, it adds the /var/www/ folder (if it exists)
+  to its folder list.
+
+
+                                 Example
+
+Web root is /var/www/, script is in /var/www/foo/bar:
+
+require('foo/bar/devfront.php');
+new Devfront('/foo/bar/');
