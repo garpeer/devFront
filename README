@@ -1,0 +1,33 @@
+                   
+                                  README
+
+                                 devFront
+
+
+
+Settings
+========
+
+Settings page is only available from the address 127.0.0.1
+
+Projects:
+- Name: project name to display
+- URL: project url (eg. http://localhost/foo , /foo/ , http://example.com)
+- Image: Project image filename 
+    must be found in project_images folder
+
+Folders:
+- Name
+- Path: folder path
+    preferably absolute path
+- Pattern: Pattern to create link from folder name
+    Using sprintf the script substitues %s with the foldername in the pattern.
+    
+    eg. #1
+    path = /var/www/foo/bar
+    pattern = /foo/bar/%s/
+
+    eg. #2
+    doxygen-generated documentations are in /var/www/doc/
+    path = /var/www/doc/
+    pattern = /doc/%s/html/

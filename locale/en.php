@@ -41,5 +41,7 @@ return Array(
     'folder_does_not_exists' => 'Folder does not exists.',
     'item_added' => 'Item added.',
     'item_updated' => 'Item updated.',
-    'item_deleted' => 'Item deleted'
+    'item_deleted' => 'Item deleted',
+    'en'=>'English',
+    'hu'=>'Hungarian'
 );

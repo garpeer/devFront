@@ -42,4 +42,6 @@ return Array(
     'item_added' => 'Új elem létrehozva.',
     'item_updated' => 'Elem sikeresen frissítve.',
     'item_deleted' => 'Elem törölve.',
+    'en'=>'Angol',
+    'hu'=>'Magyar'
 );
