@@ -1,5 +1,5 @@
 .directory
 *.bak
 *~
-config.php 
+config.php
 project_images/*

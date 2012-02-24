@@ -68,4 +68,12 @@ class devView{
         echo $this->fetch($template); 
         
     }
+    /**
+     * @brief clean string
+     * @param string $str
+     * @return string 
+     */
+    public function clean($str){
+        return htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8');
+    }
 }

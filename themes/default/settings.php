@@ -2,17 +2,17 @@
 /*
  * devFront localhost frontend
  * Copyright (C) 2012 Gergely Aradszki (garpeer)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
@@ -27,7 +27,7 @@
             <?php if ($this->themes):
                 foreach($this->themes as $theme):
                 ?>
-                    <option value="<?php echo $theme; ?>" <?php if ($this->c_theme == $theme){echo ' selected="selected"';}?>><?php echo $theme; ?></option>
+                    <option value="<?php echo $this->clean( $theme ); ?>" <?php if ($this->c_theme == $theme){echo ' selected="selected"';}?>><?php echo $this->clean( $theme ); ?></option>
             <?php
                 endforeach;
                 endif;
@@ -39,7 +39,7 @@
             <?php if ($this->locales):
                 foreach($this->locales as $locale):
                 ?>
-                    <option value="<?php echo $locale; ?>" <?php if ($this->c_locale == $locale){echo ' selected="selected"';}?>><?php echo $this->locale->$locale; ?></option>
+                    <option value="<?php echo $this->clean( $locale ); ?>" <?php if ($this->c_locale == $locale){echo ' selected="selected"';}?>><?php echo $this->clean( $this->locale->$locale ); ?></option>
             <?php
                 endforeach;
                 endif;
@@ -53,7 +53,7 @@
 
     <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->projects ?></h2>
-    <?php if ($this->projects): ?>     
+    <?php if ($this->projects): ?>
         <table>
             <thead>
                 <tr>
@@ -63,7 +63,7 @@
                     <td>&#160;</td>
                 </tr>
             </thead>
-            <tbody>   
+            <tbody>
             <?php foreach ($this->projects as $id => $project):  ?>
                 <tr>
                 <?php if ($this->request->type=='projects' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
@@ -76,22 +76,22 @@
                     <td><?php field($project, $this->request, 'path', true) ?></td>
                     <td><?php field($project, $this->request, 'icon') ?></td>
                     <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
-                <?php else: ?>            
-                    <td><?php echo isset($project['name']) ? $project['name'] : '' ?></td>
-                    <td><?php echo isset($project['path']) ? $project['path'] : '' ?></td>
-                    <td><?php echo isset($project['icon']) ? $project['icon'] : ''  ?></td>
+                <?php else: ?>
+                    <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
+                    <td><?php echo $this->clean( isset($project['path']) ? $project['path'] : '') ?></td>
+                    <td><?php echo $this->clean( isset($project['icon']) ? $project['icon'] : '')  ?></td>
                     <td>
-                        <a href="?page=settings&amp;type=projects&amp;action=edit&amp;id=<?php echo $id; ?>"><?php echo $this->locale->edit ?></a>
-                        <a href="?page=settings&amp;type=projects&amp;action=delete&amp;id=<?php echo $id; ?>"><?php echo $this->locale->delete ?></a>
+                        <a href="?page=settings&amp;type=projects&amp;action=edit&amp;id=<?php echo (int)$id; ?>"><?php echo $this->locale->edit ?></a>
+                        <a href="?page=settings&amp;type=projects&amp;action=delete&amp;id=<?php echo (int)$id; ?>"><?php echo $this->locale->delete ?></a>
                     </td>
                 <?php endif; ?>
                  </tr>
-            <?php endforeach; ?> 
+            <?php endforeach; ?>
             </tbody>
         </table>
     <?php endif; ?>
     </form>
-    
+
     <form action="?page=settings" method="post">
         <div>
         <h3><?php echo $this->locale->create_project ?></h3>
@@ -106,7 +106,7 @@
 
      <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->folders ?></h2>
-   <?php if ($this->folders): ?> 
+   <?php if ($this->folders): ?>
         <table>
             <thead>
                 <tr>
@@ -116,7 +116,7 @@
                     <td>&#160;</td>
                 </tr>
             </thead>
-            <tbody>       
+            <tbody>
             <?php foreach ($this->folders as $id => $folder):  ?>
                 <tr>
                 <?php if ($this->request->type=='folders' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
@@ -129,22 +129,22 @@
                     <td><?php field($folder, $this->request, 'path', true) ?></td>
                     <td><?php field($folder, $this->request, 'pattern') ?></td>
                     <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
-                <?php else: ?>            
-                    <td><?php echo isset($folder['name']) ? $folder['name'] : '' ?></td>
-                    <td><?php echo isset($folder['path']) ? $folder['path'] : '' ?></td>
-                    <td><?php echo isset($folder['pattern']) ? $folder['pattern'] : ''  ?></td>
+                <?php else: ?>
+                    <td><?php echo $this->clean( isset($folder['name']) ? $folder['name'] : '') ?></td>
+                    <td><?php echo $this->clean( isset($folder['path']) ? $folder['path'] : '') ?></td>
+                    <td><?php echo $this->clean( isset($folder['pattern']) ? $folder['pattern'] : '')  ?></td>
                     <td>
-                        <a href="?page=settings&amp;type=folders&amp;action=edit&amp;id=<?php echo $id; ?>"><?php echo $this->locale->edit ?></a>
-                        <a href="?page=settings&amp;type=folders&amp;action=delete&amp;id=<?php echo $id; ?>"><?php echo $this->locale->delete ?></a>
+                        <a href="?page=settings&amp;type=folders&amp;action=edit&amp;id=<?php echo (int)$id; ?>"><?php echo $this->locale->edit ?></a>
+                        <a href="?page=settings&amp;type=folders&amp;action=delete&amp;id=<?php echo (int)$id; ?>"><?php echo $this->locale->delete ?></a>
                     </td>
                 <?php endif; ?>
                  </tr>
-            <?php endforeach; ?> 
+            <?php endforeach; ?>
             </tbody>
         </table>
     <?php endif; ?>
     </form>
-    
+
     <form action="?page=settings" method="post">
         <div>
         <h3><?php echo $this->locale->create_folder ?></h3>
@@ -160,8 +160,8 @@
 <?php
     function field($data, $post, $key, $required=false, $label = null){
         $required = $required ? 'required' : '';
-        $data[$key] = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
-        $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars($data[$key], ENT_QUOTES, 'UTF-8') . '" '.$required.'/>';
+        $str = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
+        $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8') . '" '.$required.'/>';
         if ($label){
             $str = "<label>".$label.": ". $str. "</label>";
         }
