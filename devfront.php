@@ -70,22 +70,13 @@ class devFront {
     protected function index_page() {
         if ($this->projects) {
             $view = $this->get_view();
-            $view->assign('projects', $this->projects);
+            $projects = $this->projects;
+            foreach ($projects as &$project){                
+                $project['icon'] = $project['icon'] ? $this->url . "project_images/".$project['icon']: false;
+            }
+            $view->assign('projects', $projects);
             $view->display($this->template('projects.php'));
         }
-
-        /* $folders = Array(
-          'Folders'=>Array(
-          'path'=>'.',
-          'pattern'=>'http://localhost/%s/',
-          'exclude' => Array('lister', 'NetBeansProjects','test','test.loc','bak','tmp','documentation','mypaint'),
-          'exclude_projects' => true
-          ),
-          'Documentation'=>Array(
-          'path'=>'./documentation/',
-          'pattern'=>'/documentation/%s/html/'
-          )
-          ); */
         if ($this->folders) {
             
             foreach ($this->folders as &$folder) {

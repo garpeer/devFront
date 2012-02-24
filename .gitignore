@@ -2,3 +2,4 @@
 *.bak
 *~
 config.php 
+project_images/*

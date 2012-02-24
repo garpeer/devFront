@@ -60,6 +60,10 @@ ul{
     height: 150px;
     text-align: center;
     vertical-align: bottom;
+    background-position: center 30%;
+    background-color: rgba(255,255,255,0.4);
+    background-image: url(images/default.png); /* gear clipart from http://www.clker.com/clipart-15720.html */
+    background-repeat: no-repeat;
 }
 .projects a{
     display: block;
@@ -71,9 +75,8 @@ ul{
     text-decoration: none;
     border: 1px solid gray;
     border-radius: 10px;
-    background-position: left top, center 30%;
-    background-color: rgba(255,255,255,0.4);
-    background-image: url(images/glossy.png), url(images/default.png); /* gear clipart from http://www.clker.com/clipart-15720.html */
+    background-position: left top;
+    background-image: url(images/glossy.png);
     background-repeat: no-repeat;
     outline: none;
 }
@@ -81,8 +84,6 @@ ul{
 .projects a:focus{
     box-shadow: 0 0 10px #FFD341;
     border-color: #BE7B00;
-    position: relative;
-    top: 1px;
     color: #333;
 }
 .folders {
