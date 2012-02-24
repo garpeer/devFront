@@ -182,7 +182,8 @@ ul{
     border-bottom: 1px solid #444;
 }
 .settings-page select,
-.settings-page input{
+.settings-page input,
+.settings-page option{
     background-color: #000;
     border: 1px solid #777;
     color:#AAA;
@@ -195,7 +196,9 @@ ul{
     cursor: pointer;
 }
 .settings-page input:hover,
-.settings-page input:focus{
+.settings-page input:focus,
+.settings-page select:hover,
+.settings-page select:focus{
     color: #FFD341;
     border-color: #FFD341;
 }

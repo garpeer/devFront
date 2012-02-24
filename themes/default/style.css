@@ -196,7 +196,9 @@ ul{
     cursor: pointer;
 }
 .settings-page input:hover,
-.settings-page input:focus{
+.settings-page input:focus,
+.settings-page select:hover,
+.settings-page select:focus{
     color: #000;
     border-color: #FFD341;
 }

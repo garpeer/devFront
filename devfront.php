@@ -81,6 +81,7 @@ class devFront {
             require 'classes/view.php';
             require 'classes/locale.php';
             require 'classes/helper.php';
+            $_REQUEST['is_local'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? true : false;
             $this->request = new devHelper($_REQUEST);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
 
@@ -170,6 +171,11 @@ class devFront {
      * @brief settings page
      */
     protected function settings_page() {
+        if (!$this->request->is_local){
+            header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
+            echo '<h2>403 - Forbidden</h2>';
+            return;
+        }
         if ($this->request->type) {
             $this->save_settings($this->request);
         }
@@ -196,7 +202,6 @@ class devFront {
         $view->assign('locales', $locales);
         $view->assign('projects', $this->projects);
         $view->assign('folders', $this->folders);
-        $view->assign('request', $this->request);
         $view->assign('c_theme', $this->config['theme']);
         $view->assign('c_locale', $this->config['locale']);
         $view->display($this->template('settings.php'));
@@ -380,6 +385,7 @@ class devFront {
     protected function get_view() {
         $view = new devView();
         $view->assign('theme_dir', $this->url . "themes/" . $this->config['theme'] . "/");
+        $view->assign('request', $this->request);
         $view->assignRef('locale', $this->locale);
         return $view;
     }

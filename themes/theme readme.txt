@@ -7,6 +7,7 @@ default page template
 available variables:
 $this->title
 $this->theme_dir
+$ŧhis->request
 $this->locale
 $this->content
 $this->notices
@@ -18,6 +19,7 @@ settings page template
 
 available variables:
 $this->theme_dir
+$ŧhis->request
 $this->locale
 $this->locales
 $this->themes
@@ -25,7 +27,6 @@ $this->c_locale (current locale)
 $this->c_theme (current theme)
 $this->projects
 $this->folders
-$ŧhis->request
 
 projects.php
 ===========
@@ -33,6 +34,7 @@ project lister template
 
 available variables:
 $this->theme_dir
+$ŧhis->request
 $this->locale
 $this->projects
 
@@ -42,6 +44,7 @@ folder lister template
 
 available variables:
 $this->theme_dir
+$ŧhis->request
 $this->locale
 $this->folders
 
