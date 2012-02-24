@@ -80,6 +80,7 @@ ul{
     margin-bottom: 30px;
 }
 .projects li{
+    list-style: none;
     display: inline-block;
     margin: 0 10px 20px 10px;
     width: 150px;
@@ -113,20 +114,21 @@ ul{
     border-color: #BE7B00;
     color: #333;
 }
-.folders {
-        opacity: 0.5;
-        padding: 20px;
-	-moz-column-count: 4;
-	-moz-column-gap: 20px;
-	-webkit-column-count: 4;
-	-webkit-column-gap: 20px;
-	column-count: 4;
-	column-gap: 20px;
-        background-color: rgba(255,255,255,0.5);
-        border-radius: 10px;
-        border-top: 1px solid #FFF;
-        border-bottom: 1px solid #AAA;
-        box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
+.folders {        
+    list-style: none;
+    opacity: 0.5;
+    padding: 20px;
+    -moz-column-count: 4;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 4;
+    -webkit-column-gap: 20px;
+    column-count: 4;
+    column-gap: 20px;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 10px;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #AAA;
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
 }
 .folders:hover{
     opacity: 1.0;
@@ -151,7 +153,13 @@ ul{
     margin-bottom:10px;
     margin-top: 30px;
 }
-
+.settings-page a{
+    color: #888;
+}
+.settings-page a:hover,
+.settings-page a:focus{
+    color: #000;
+}
 .settings-page table{
     font-size: 12px;
     border-collapse: collapse;
@@ -179,12 +187,18 @@ ul{
     background-color: #FFF;
     border: 1px solid #AAA;
     color:#333;
+    border-radius: 3px;
 }
 .settings-page table input[type=text]{
     width: 100%;
 }
 .settings-page input[type=submit]{
     cursor: pointer;
+}
+.settings-page input:hover,
+.settings-page input:focus{
+    color: #000;
+    border-color: #FFD341;
 }
 .settings-page label{
     margin-right: 20px;

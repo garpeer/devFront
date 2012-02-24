@@ -89,7 +89,8 @@ ul{
     background-image: url(images/default.png); /* gear clipart from http://www.clker.com/clipart-15720.html */
     background-repeat: no-repeat;
 }
-.projects a{
+.projects a{    
+    list-style: none;
     display: block;
     height: 20px;
     padding-top: 130px;
@@ -110,21 +111,22 @@ ul{
     border-color: #BE7B00;
     color: #EEE;
 }
-.folders {
-        opacity: 0.5;
-        padding: 20px;
-	-moz-column-count: 4;
-	-moz-column-gap: 20px;
-	-webkit-column-count: 4;
-	-webkit-column-gap: 20px;
-	column-count: 4;
-	column-gap: 20px;
-        background-color: #000;
-        background-color: rgba(0,0,0,0.5);
-        border-radius: 10px;
-        border-top: 1px solid #444;
-        border-bottom: 1px solid #333;
-        box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
+.folders {        
+    list-style: none;
+    opacity: 0.5;
+    padding: 20px;
+    -moz-column-count: 4;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 4;
+    -webkit-column-gap: 20px;
+    column-count: 4;
+    column-gap: 20px;
+    background-color: #000;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 10px;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #333;
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.15);
 }
 .folders:hover{
     opacity: 1.0;
@@ -184,6 +186,7 @@ ul{
     background-color: #000;
     border: 1px solid #777;
     color:#AAA;
+    border-radius: 3px;
 }
 .settings-page table input[type=text]{
     width: 100%;
