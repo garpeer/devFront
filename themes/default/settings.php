@@ -77,9 +77,9 @@
         <h3><?php echo $this->locale->create ?></h3>
         <input type="hidden" name="type" value="projects" />
         <input type="hidden" name="action" value="create" />
-        <?php field(false, $this->request, 'name', $this->locale->project_name); ?>
-        <?php field(false, $this->request, 'path', $this->locale->project_path); ?>
-        <?php field(false, $this->request, 'icon', $this->locale->project_icon); ?>
+        <?php field(false, $this->request, 'name', true, $this->locale->project_name); ?>
+        <?php field(false, $this->request, 'path', true, $this->locale->project_path); ?>
+        <?php field(false, $this->request, 'icon', false, $this->locale->project_icon); ?>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
@@ -95,8 +95,12 @@
     </form>
 </div>
 <?php
-    function field($data, $post, $key, $required=false){
+    function field($data, $post, $key, $required=false, $label = null){
         $required = $required ? 'required' : '';
         $data[$key] = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
-        echo '<input type="text" name="'.$key.'" value="'. htmlspecialchars($data[$key], ENT_QUOTES, 'UTF-8') . '" '.$required.'/>';
+        $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars($data[$key], ENT_QUOTES, 'UTF-8') . '" '.$required.'/>';
+        if ($label){
+            $str = "<label>".$label.": ". $str. "</label>";
+        }
+        echo $str;
     }
