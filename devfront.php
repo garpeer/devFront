@@ -17,21 +17,67 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  */
+/**
+ * @brief core class
+ */
 class devFront {
-
+    /**
+     * @brief configuration
+     * @var Array 
+     */
     protected $config;
+    /**
+     * @brief locale object
+     * @var devLocale 
+     */
     protected $locale;
+    /**
+     * @brief server name (eg. localhost)
+     * @var String 
+     */
     protected $servername;
+    /**
+     * @brief devfront url for images & css
+     * @var String 
+     */
     protected $url;
+    /**
+     * @brief configuration file
+     * @var String 
+     */
     protected $configfile = "config.php";
+    /**
+     * @brief app dir
+     * @var String 
+     */
     protected $dir;
+    /**
+     * @brief request object
+     * @var devHelper 
+     */
     protected $request;
+    /**
+     * @brief projects
+     * @var Array 
+     */
     protected $projects;
+     /**
+     * @brief folders
+     * @var Array 
+     */
     protected $folders;
+     /**
+     * @brief notices
+     * @var Array 
+     */
     protected $notices = Array();
 
+     /**
+      * @brief constructor
+      * @param String $url devfront url for images & css
+      */
     public function __construct($url = false) {
-        try {
+        try {            
             require 'classes/view.php';
             require 'classes/locale.php';
             require 'classes/helper.php';
@@ -84,7 +130,9 @@ class devFront {
             echo 'Error: ' . $e->getMessage();
         }
     }
-
+    /**
+     * @brief index page
+     */
     protected function index_page() {
         if ($this->projects) {
             $view = $this->get_view();
@@ -117,7 +165,9 @@ class devFront {
             $view->display($this->template('folders.php'));
         }
     }
-
+    /**
+     * @brief settings page
+     */
     protected function settings_page() {
         if ($this->request->type) {
             $this->save_settings($this->request);
@@ -150,7 +200,10 @@ class devFront {
         $view->assign('c_locale', $this->config['locale']);
         $view->display($this->template('settings.php'));
     }
-
+    /**
+     * @brief save settings
+     * @param devHelper request object
+     */
     protected function save_settings(&$data) {
         switch ($data->type) {
             case 'basic': $this->save_settings_basic($data);
@@ -161,7 +214,10 @@ class devFront {
                 break;
         }
     }
-
+    /**
+     * @brief saves basic settings
+     * @param devHelper request object
+     */
     protected function save_settings_basic(&$data) {
         $theme = $data->theme;
         $locale = $data->locale;
@@ -176,7 +232,10 @@ class devFront {
         $this->notify($this->locale->item_updated, 1);
         $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
     }
-
+    /**
+     * @brief save folders
+     * @param devHelper request object
+     */
     protected function save_settings_folders(&$data) {
         switch ($data->action) {
             case 'create':
@@ -222,7 +281,10 @@ class devFront {
                 break;
         }
     }
-
+    /**
+     * @brief save projects
+     * @param devHelper request object
+     */
     protected function save_settings_projects(&$data) {
         switch ($data->action) {
             case 'create':
@@ -259,12 +321,16 @@ class devFront {
                 break;
         }
     }
-
+    
     protected function install() {
         $this->config = Array('theme' => 'default', 'locale' => 'en');
         $this->save_config($this->config);
     }
-
+    /**
+     * @brief get app file
+     * @param String $file filename
+     * @return String 
+     */
     protected function file($file=false) {
         if (!isset($this->dir)) {
             $dir = dirname(__FILE__);
@@ -272,7 +338,14 @@ class devFront {
         }
         return $this->dir . $file;
     }
-
+    /**
+     * @brief get theme's template file uri 
+     * 
+     * if file is not found, falls back to the default theme's file
+     * 
+     * @param String $file filename
+     * @return String 
+     */
     protected function template($file) {
         $template = $this->file("themes/" . $this->config['theme'] . "/" . $file);
         if (!file_exists($template) && $this->config['theme'] != 'default'){
@@ -280,7 +353,10 @@ class devFront {
         }
         return $template;
     }
-
+    /**
+     * @brief save config to configuration file
+     * @param Array $config 
+     */
     protected function save_config($config) {
         if (!file_put_contents($this->configfile, serialize($config))) {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
@@ -289,14 +365,21 @@ class devFront {
             $this->folders = isset ($config['folders']) ? $config['folders'] : false;
         }
     }
-
+    /**
+     * @brief get View
+     * @return devView 
+     */
     protected function get_view() {
         $view = new devView();
         $view->assign('theme_dir', $this->url . "themes/" . $this->config['theme'] . "/");
         $view->assignRef('locale', $this->locale);
         return $view;
     }
-
+    /**
+     * @brief send notification message
+     * @param String $msg
+     * @param Int $level 
+     */
     protected function notify($msg, $level = 0) {
         $this->notices[] = Array('message' => $msg, 'level' => $level);
     }
