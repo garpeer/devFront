@@ -46,3 +46,5 @@ $this->locale
 $this->folders
 
 
+If a template file is not found for the current them ,the system falls back to 
+the one in the default theme.
