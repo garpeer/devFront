@@ -53,6 +53,7 @@
 
     <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->projects ?></h2>
+    <?php if ($this->projects): ?>     
         <table>
             <thead>
                 <tr>
@@ -62,8 +63,7 @@
                     <td>&#160;</td>
                 </tr>
             </thead>
-            <tbody>
-    <?php if ($this->projects): ?>        
+            <tbody>   
             <?php foreach ($this->projects as $id => $project):  ?>
                 <tr>
                 <?php if ($this->request->type=='projects' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
@@ -106,6 +106,7 @@
 
      <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->folders ?></h2>
+   <?php if ($this->folders): ?> 
         <table>
             <thead>
                 <tr>
@@ -115,8 +116,7 @@
                     <td>&#160;</td>
                 </tr>
             </thead>
-            <tbody>
-   <?php if ($this->folders): ?>        
+            <tbody>       
             <?php foreach ($this->folders as $id => $folder):  ?>
                 <tr>
                 <?php if ($this->request->type=='folders' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>

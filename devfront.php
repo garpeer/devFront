@@ -2,17 +2,17 @@
 /*
  * devFront localhost frontend
  * Copyright (C) 2012 Gergely Aradszki (garpeer)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
@@ -23,52 +23,52 @@
 class devFront {
     /**
      * @brief configuration
-     * @var array 
+     * @var array
      */
     protected $config;
     /**
      * @brief locale object
-     * @var devLocale 
+     * @var devLocale
      */
     protected $locale;
     /**
      * @brief server name (eg. localhost)
-     * @var string  
+     * @var string
      */
     protected $servername;
     /**
      * @brief devfront url for images & css
-     * @var string  
+     * @var string
      */
     protected $url;
     /**
      * @brief configuration file
-     * @var string  
+     * @var string
      */
     protected $configfile = "config.php";
     /**
      * @brief app dir
-     * @var string  
+     * @var string
      */
     protected $dir;
     /**
      * @brief request object
-     * @var devHelper 
+     * @var devHelper
      */
     protected $request;
     /**
      * @brief projects
-     * @var array 
+     * @var array
      */
     protected $projects;
      /**
      * @brief folders
-     * @var array 
+     * @var array
      */
     protected $folders;
      /**
      * @brief notices
-     * @var array 
+     * @var array
      */
     protected $notices = Array();
 
@@ -77,29 +77,30 @@ class devFront {
       * @param string $url devfront url for images & css
       */
     public function __construct($url = false) {
-        try {            
+        try {
             require 'classes/view.php';
             require 'classes/locale.php';
             require 'classes/helper.php';
             $this->request = new devHelper($_REQUEST);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
-            
+
             $this->url = $url ? $url : '/devfront/';
             $this->configfile = $this->file($this->configfile);
             ob_start();
             if (!file_exists($this->configfile)) {
                 $this->install();
-            } else {
-                $config = file_get_contents($this->configfile);
-                if ($config) {
-                    $config = unserialize($config);
-                }
-                if (!$config) {
-                    throw new Exception('config file could not be read');
-                } else {
-                    $this->config = $config;
-                }
             }
+
+            $config = file_get_contents($this->configfile);
+            if ($config) {
+                $config = unserialize($config);
+            }
+            if (!$config) {
+                throw new Exception('config file could not be read');
+            } else {
+                $this->config = $config;
+            }
+
             $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
             $this->projects = isset($this->config['projects']) ? $this->config['projects'] : null;
             if ($this->projects) {
@@ -112,7 +113,7 @@ class devFront {
                     }
                 }
             }
-            $this->folders = isset($this->config['folders']) ? $this->config['folders'] : null;            
+            $this->folders = isset($this->config['folders']) ? $this->config['folders'] : null;
             $page = $this->request->page ? $this->request->page . '_page' : 'index_page';
             if (method_exists($this, $page)) {
                 $this->$page();
@@ -137,14 +138,14 @@ class devFront {
         if ($this->projects) {
             $view = $this->get_view();
             $projects = $this->projects;
-            foreach ($projects as &$project){                
+            foreach ($projects as &$project){
                 $project['icon'] = $project['icon'] ? $this->url . "project_images/".$project['icon']: false;
             }
             $view->assign('projects', $projects);
             $view->display($this->template('projects.php'));
         }
         if ($this->folders) {
-            
+
             foreach ($this->folders as &$folder) {
                 $exclude = isset($folder['exclude']) ? $folder['exclude'] : null;
                 $exclude_projects = isset($folder['exclude_projects']) ? $folder['exclude_projects'] : false;
@@ -228,7 +229,7 @@ class devFront {
             $this->config['locale'] = $data->locale;
         }
         $this->save_config($this->config);
-        
+
         $this->notify($this->locale->item_updated, 1);
         $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
     }
@@ -321,15 +322,22 @@ class devFront {
                 break;
         }
     }
-    
+
     protected function install() {
-        $this->config = Array('theme' => 'default', 'locale' => 'en');
-        $this->save_config($this->config);
+        $this->config = Array('theme' => 'default', 'locale' => 'en');        
+        $this->config['folders']=Array(
+            Array(
+                'name'=>'www',
+                'path'=>$_SERVER['DOCUMENT_ROOT'],
+                'pattern'=>'/%s/'
+            )
+        );
+        $this->save_config($this->config);       
     }
     /**
      * @brief get app file
      * @param string $file filename
-     * @return string 
+     * @return string
      */
     protected function file($file=false) {
         if (!isset($this->dir)) {
@@ -339,12 +347,12 @@ class devFront {
         return $this->dir . $file;
     }
     /**
-     * @brief get theme's template file uri 
-     * 
+     * @brief get theme's template file uri
+     *
      * if file is not found, falls back to the default theme's file
-     * 
+     *
      * @param string $file filename
-     * @return string 
+     * @return string
      */
     protected function template($file) {
         $template = $this->file("themes/" . $this->config['theme'] . "/" . $file);
@@ -355,7 +363,7 @@ class devFront {
     }
     /**
      * @brief save config to configuration file
-     * @param array $config 
+     * @param array $config
      */
     protected function save_config($config) {
         if (!file_put_contents($this->configfile, serialize($config))) {
@@ -367,7 +375,7 @@ class devFront {
     }
     /**
      * @brief get View
-     * @return devView 
+     * @return devView
      */
     protected function get_view() {
         $view = new devView();
@@ -378,7 +386,7 @@ class devFront {
     /**
      * @brief send notification message
      * @param string $msg
-     * @param int $level 
+     * @param int $level
      */
     protected function notify($msg, $level = 0) {
         $this->notices[] = Array('message' => $msg, 'level' => $level);
