@@ -33,3 +33,5 @@ Folders:
     doxygen-generated documentations are in /var/www/doc/
     path = /var/www/doc/
     pattern = /doc/%FOLDER%/html/
+- Exclude: list of folders to exclude (separated by ',').
+    eg.: tmp, bak

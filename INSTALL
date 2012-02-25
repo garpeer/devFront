@@ -17,7 +17,7 @@
 
                                  Example
 
-Web root is /var/www/, script is in /var/www/foo/bar:
+Web root is /var/www/, script is in /var/www/foo/bar, content of index.php:
 
 require('foo/bar/devfront.php');
 new Devfront('/foo/bar/');
