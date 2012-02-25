@@ -26,17 +26,18 @@
     </head>
     <body>
         <div class="wrapper">
-            <?php if ($this->request->is_local): ?>
-            <a class="settings-link" href="?page=settings"><?php echo $this->locale->settings?></a>
-            <?php endif; ?>
-            <h1><a href="/"><?php echo $this->clean($this->title); ?></a></h1>
             <?php if ($this->notices): ?>
             <ul class="notices">
                 <?php foreach ($this->notices as $notice): ?>
                     <li class="notice-level-<?php echo $notice['level']; ?>"><?php echo $notice['message']; ?></li>
                 <?php endforeach; ?>
             </ul>
-            <?php endif;
+            <?php endif; ?>
+            <?php if ($this->request->is_local): ?>
+            <a class="settings-link" href="?page=settings"><?php echo $this->locale->settings?></a>
+            <?php endif; ?>
+            <h1><a href="/"><?php echo $this->clean($this->title); ?></a></h1>
+            <?php
             echo $this->content;
             $from = "2012";
             $to = date('Y');
