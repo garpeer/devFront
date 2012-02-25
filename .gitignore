@@ -2,4 +2,7 @@
 *.bak
 *~
 config.php
-project_images/*
+project_images/*.jpg
+project_images/*.jpeg
+project_images/*.png
+project_images/*.gif
