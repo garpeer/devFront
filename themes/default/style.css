@@ -261,6 +261,13 @@ ul{
     margin-bottom: 1px;    
     padding: 5px 10px;
 }
+.notices p{
+    margin: 0;
+}
+.notices input[type=submit]{
+    margin-left: 20px;
+    cursor: pointer;
+}
 .notice-level-1{
     background-color: rgba(0,255,0,0.1) !important;
     color:#DDD;

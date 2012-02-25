@@ -282,9 +282,22 @@ class devFront {
                 }
                 break;
             case "delete":
-                unset($this->config['folders'][$data->id]);
-                $this->save_config($this->config);
-                $this->notify($this->locale->item_deleted, 2);
+                if ( $data->confirm ){
+                    unset($this->config['folders'][$data->id]);
+                    $this->save_config($this->config);
+                    $this->notify($this->locale->item_deleted, 2);
+                }else{
+                    $confirm = '<form action="?page=settings" method="post">
+                        <p>'.$this->locale->confirm_delete.'
+                            <input type="submit" value="'.$this->locale->delete.'" />
+                            <input type="hidden" name="type" value="folders" />
+                            <input type="hidden" name="action" value="delete" />
+                            <input type="hidden" name="id" value="'.$data->id.'" />
+                            <input type="hidden" name="confirm" value="1" />
+                        </p>
+                        </form>';
+                    $this->notify( $confirm ,2);
+                }
                 break;
             case 'promote':
                 if ($data->id > 0){
@@ -343,9 +356,22 @@ class devFront {
                 $this->notify($this->locale->item_updated, 1);
                 break;
             case "delete":
-                unset($this->config['projects'][$data->id]);
-                $this->save_config($this->config);
-                $this->notify($this->locale->item_deleted, 2);
+                if ( $data->confirm ){
+                    unset($this->config['projects'][$data->id]);
+                    $this->save_config($this->config);
+                    $this->notify($this->locale->item_deleted, 2);
+                }else{
+                    $confirm = '<form action="?page=settings" method="post">
+                        <p>'.$this->locale->confirm_delete.'
+                            <input type="submit" value="'.$this->locale->delete.'" />
+                            <input type="hidden" name="type" value="projects" />
+                            <input type="hidden" name="action" value="delete" />
+                            <input type="hidden" name="id" value="'.$data->id.'" />
+                            <input type="hidden" name="confirm" value="1" />
+                        </p>
+                        </form>';
+                    $this->notify( $confirm ,2);
+                }
                 break;
             case 'promote':
                 if ($data->id > 0){

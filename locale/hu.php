@@ -28,6 +28,7 @@ return Array(
     'cancel'=>'Mégsem',
     'edit'=>'Szerkesztés',
     'delete'=>'Törlés',
+    'confirm_delete'=>'Biztosan törlöd ezt az elemet?',
     'promote'=>'▲',
     'demote'=>'▼',
     'theme'=>'Téma',

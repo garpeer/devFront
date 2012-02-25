@@ -255,6 +255,13 @@ ul{
     right: 100px;
     top: 50px;
 }
+.notices p{
+    margin: 0;
+}
+.notices input[type=submit]{
+    margin-left: 20px;
+    cursor: pointer;
+}
 .notices li{
     background-color: rgba(255,255,255,0.5);
     border-radius: 5px;

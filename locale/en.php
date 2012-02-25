@@ -28,6 +28,7 @@ return Array(
     'cancel'=>'Cancel',
     'edit'=>'Edit',
     'delete'=>'Delete',
+    'confirm_delete'=>'Are you sure you want to delete this item?',
     'promote'=>'▲',
     'demote'=>'▼',
     'theme'=>'Theme',
