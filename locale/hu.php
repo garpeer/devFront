@@ -42,6 +42,7 @@ return Array(
     'folder_name'=>'Név',
     'folder_path'=>'Mappa',
     'folder_pattern'=>'Pattern',
+    'folder_exclude'=>'Kivételek',
     'folder_does_not_exists' => 'A mappa nem létezik.',
     'item_added' => 'Új elem létrehozva.',
     'item_updated' => 'Elem sikeresen frissítve.',

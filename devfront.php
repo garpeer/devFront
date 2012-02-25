@@ -251,12 +251,14 @@ class devFront {
                         $folder = Array(
                             'name' => $data->name,
                             'path' => $data->path,
-                            'pattern' => $data->pattern
+                            'pattern' => $data->pattern,
+                            'exclude' => explode(',',str_replace(' ','',$data->exclude))
                         );
                         $this->config['folders'][] = $folder;
                         $data->delete('name');
                         $data->delete('path');
                         $data->delete('pattern');
+                        $data->delete('exclude');
 
                         $this->save_config($this->config);
                         $this->notify($this->locale->item_added,1);
@@ -271,7 +273,8 @@ class devFront {
                         $folder = Array(
                             'name' => $data->name,
                             'path' => $data->path,
-                            'pattern' => $data->pattern
+                            'pattern' => $data->pattern,
+                            'exclude' => explode(',',str_replace(' ','',$data->exclude))
                         );
                         $this->config['folders'][$data->id] = $folder;
                         $this->save_config($this->config);

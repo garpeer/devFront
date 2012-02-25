@@ -140,6 +140,7 @@
                     <td><?php echo $this->locale->folder_name ?></td>
                     <td><?php echo $this->locale->folder_path ?></td>
                     <td><?php echo $this->locale->folder_pattern ?></td>
+                    <td><?php echo $this->locale->folder_exclude ?></td>
                     <td>&#160;</td>
                 </tr>
             </thead>
@@ -156,11 +157,13 @@
                     </td>
                     <td><?php field($folder, $this->request, 'path', true) ?></td>
                     <td><?php field($folder, $this->request, 'pattern') ?></td>
+                    <td><?php field($folder, $this->request, 'exclude') ?></td>
                     <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
                 <?php else: ?>
                     <td><?php echo $this->clean( isset($folder['name']) ? $folder['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['path']) ? $folder['path'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['pattern']) ? $folder['pattern'] : '')  ?></td>
+                    <td><?php echo $this->clean( isset($folder['exclude']) ? implode(', ',$folder['exclude']) : '')  ?></td>
                     <td>
                         <?php if ($id > 0): ?>
                         <a href="?page=settings&amp;type=folders&amp;action=promote&amp;id=<?php echo (int)$id; ?>" class="action-promote"><?php echo $this->locale->promote ?></a>
@@ -197,6 +200,9 @@
         <div class="block">
         <?php field(false, $this->request, 'pattern', false, $this->locale->folder_pattern); ?>
         </div>
+        <div class="block">
+        <?php field(false, $this->request, 'exclude', false, $this->locale->folder_exclude); ?>
+        </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
@@ -205,6 +211,9 @@
     function field($data, $post, $key, $required=false, $label = null){
         $required = $required ? 'required' : '';
         $str = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
+        if (is_array($str)){
+            $str = implode(', ',$str);
+        }
         $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8') . '" '.$required.'/>';
         if ($label){
             $str = "<label>".$label." ". $str. "</label>";

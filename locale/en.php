@@ -42,6 +42,7 @@ return Array(
     'folder_name'=>'Name',
     'folder_path'=>'Path',
     'folder_pattern'=>'Pattern',
+    'folder_exclude' => 'Exclude',
     'folder_does_not_exists' => 'Folder does not exists.',
     'item_added' => 'Item added.',
     'item_updated' => 'Item updated.',
