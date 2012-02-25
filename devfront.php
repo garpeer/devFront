@@ -103,11 +103,11 @@ class devFront {
             }
 
             $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
-            $this->projects = isset($this->config['projects']) ? $this->config['projects'] : null;
+            $this->projects = isset($this->config['projects']) ? $this->config['projects'] : null;            
             if ($this->projects) {
                 foreach ($this->projects as &$project) {
                     if (!isset($project['path'])) {
-                        $project['path'] = "http://" . $this->servername . "/" . $id . "/";
+                        $project['path'] = "";
                     }
                     if (!isset($project['icon'])) {
                         $project['icon'] = false;
@@ -136,7 +136,7 @@ class devFront {
      * @brief index page
      */
     protected function index_page() {
-        if ($this->projects) { 
+        if ($this->projects) {
             $view = $this->get_view();
             $projects = $this->projects;
             foreach ($projects as &$project){
@@ -286,6 +286,27 @@ class devFront {
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_deleted, 2);
                 break;
+            case 'promote':
+                if ($data->id > 0){
+                    $new_id = $data->id - 1;
+                    $tmp = $this->config['folders'][$new_id];
+                    $this->config['folders'][$new_id] = $this->config['folders'][$data->id];
+                    $this->config['folders'][$data->id] = $tmp;
+                    $this->save_config($this->config);
+                    $this->notify($this->locale->item_updated, 1);
+                }
+                break;
+            case 'demote':
+                $count = count ($this->config['folders']);
+                if ($data->id < $count){
+                    $new_id = $data->id + 1;
+                    $tmp = $this->config['folders'][$new_id];
+                    $this->config['folders'][$new_id] = $this->config['folders'][$data->id];
+                    $this->config['folders'][$data->id] = $tmp;
+                    $this->save_config($this->config);
+                    $this->notify($this->locale->item_updated, 1);
+                }
+                break;
         }
     }
     /**
@@ -393,11 +414,14 @@ class devFront {
      * @param array $config
      */
     protected function save_config($config) {
+        $config['projects'] = isset($config['projects']) ? array_values($config['projects']) : false;
+        $config['folders'] = isset($config['folders']) ? array_values($config['folders']) : false;        
         if (!file_put_contents($this->configfile, serialize($config))) {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
         } else {
-            $this->projects = isset ($config['projects']) ? $config['projects'] : false;
-            $this->folders = isset ($config['folders']) ? $config['folders'] : false;
+            $this->config = $config;
+            $this->projects = $config['projects'];
+            $this->folders = $config['folders'];
         }
     }
     /**
