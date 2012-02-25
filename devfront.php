@@ -81,8 +81,6 @@ class devFront {
             require 'classes/view.php';
             require 'classes/locale.php';
             require 'classes/helper.php';
-            $_REQUEST['is_local'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? true : false;
-            $this->request = new devHelper($_REQUEST);
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
 
             $this->url = $url ? $url : '/devfront/';
@@ -100,8 +98,11 @@ class devFront {
                 throw new Exception('config file could not be read');
             } else {
                 $this->config = $config;
+                $this->config['allow_ip'] = isset($this->config['allow_ip']) ? $this->config['allow_ip'] : Array();
             }
-
+            $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || in_array($_SERVER['REMOTE_ADDR'], $this->config['allow_ip']);
+            $this->request = new devHelper($_REQUEST);
+            
             $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
             $this->projects = isset($this->config['projects']) ? $this->config['projects'] : null;            
             if ($this->projects) {
@@ -172,7 +173,7 @@ class devFront {
      * @brief settings page
      */
     protected function settings_page() {
-        if (!$this->request->is_local){
+        if (!$this->request->is_admin){
             header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
             echo '<h2>403 - Forbidden</h2>';
             return;
@@ -203,8 +204,7 @@ class devFront {
         $view->assign('locales', $locales);
         $view->assign('projects', $this->projects);
         $view->assign('folders', $this->folders);
-        $view->assign('c_theme', $this->config['theme']);
-        $view->assign('c_locale', $this->config['locale']);
+        $view->assign('config', $this->config);
         $view->display($this->template('settings.php'));
     }
     /**
@@ -226,14 +226,14 @@ class devFront {
      * @param devHelper request object
      */
     protected function save_settings_basic(&$data) {
-        $theme = $data->theme;
-        $locale = $data->locale;
-        if ($theme) {
+        if ($data->theme) {
             $this->config['theme'] = $data->theme;
         }
-        if ($locale) {
+        if ($data->locale) {
             $this->config['locale'] = $data->locale;
         }
+        $this->config['allow_ip'] = array_flip(array_flip(explode(',',str_replace(' ','',$data->allow_ip))));
+        
         $this->save_config($this->config);
         
         $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));

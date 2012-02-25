@@ -21,32 +21,41 @@
 <div class="settings-page">
     <form action="?page=settings" method="post">
         <h2><?php echo $this->locale->settings ?></h2>
-        <div>
-        <label><?php echo $this->locale->theme ?>:
-        <select name="theme">
-            <?php if ($this->themes):
-                foreach($this->themes as $theme):
-                ?>
-                    <option value="<?php echo $this->clean( $theme ); ?>" <?php if ($this->c_theme == $theme){echo ' selected="selected"';}?>><?php echo $this->clean( $theme ); ?></option>
-            <?php
-                endforeach;
-                endif;
-            ?>
-        </select>
-        </label>
-        <label><?php echo $this->locale->locale ?>:
-            <select name="locale">
-            <?php if ($this->locales):
-                foreach($this->locales as $locale):
-                ?>
-                    <option value="<?php echo $this->clean( $locale ); ?>" <?php if ($this->c_locale == $locale){echo ' selected="selected"';}?>><?php echo $this->clean( $this->locale->$locale ); ?></option>
-            <?php
-                endforeach;
-                endif;
-            ?>
-        </select>
-        </label>
+        <div class="clearfix">
         <input type="hidden" name="type" value="basic" />
+            <div class="block">
+                <label><?php echo $this->locale->theme ?>
+                <select name="theme">
+                    <?php if ($this->themes):
+                        foreach($this->themes as $theme):
+                        ?>
+                            <option value="<?php echo $this->clean( $theme ); ?>" <?php if ($this->config['theme'] == $theme){echo ' selected="selected"';}?>><?php echo $this->clean( $theme ); ?></option>
+                    <?php
+                        endforeach;
+                        endif;
+                    ?>
+                </select>
+                </label>
+            </div>
+            <div class="block">
+                <label><?php echo $this->locale->locale ?>
+                    <select name="locale">
+                    <?php if ($this->locales):
+                        foreach($this->locales as $locale):
+                        ?>
+                            <option value="<?php echo $this->clean( $locale ); ?>" <?php if ($this->config['locale'] == $locale){echo ' selected="selected"';}?>><?php echo $this->clean( $this->locale->$locale ); ?></option>
+                    <?php
+                        endforeach;
+                        endif;
+                    ?>
+                </select>
+                </label>
+            </div>
+            <div class="block">
+                <label><?php echo $this->locale->allow_ips ?>
+                <input type="text" name="allow_ip" value="<?php echo $this->clean(implode(', ',$this->config['allow_ip'])) ?>">            
+                </label>
+            </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
@@ -105,13 +114,19 @@
     </form>
 
     <form action="?page=settings" method="post">
-        <div>
+        <div class="clearfix">
         <h3><?php echo $this->locale->create_project ?></h3>
         <input type="hidden" name="type" value="projects" />
-        <input type="hidden" name="action" value="create" />
-        <?php field(false, $this->request, 'name', true, $this->locale->project_name); ?>
-        <?php field(false, $this->request, 'path', true, $this->locale->project_path); ?>
-        <?php field(false, $this->request, 'icon', false, $this->locale->project_icon); ?>
+        <input type="hidden" name="action" value="create" />        
+            <div class="block">
+                <?php field(false, $this->request, 'name', true, $this->locale->project_name); ?>
+            </div>    
+            <div class="block">
+                <?php field(false, $this->request, 'path', true, $this->locale->project_path); ?>
+            </div>   
+            <div class="block">
+                <?php field(false, $this->request, 'icon', false, $this->locale->project_icon); ?>
+            </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
@@ -169,13 +184,19 @@
     </form>
 
     <form action="?page=settings" method="post">
-        <div>
+        <div class="clearfix">
         <h3><?php echo $this->locale->create_folder ?></h3>
         <input type="hidden" name="type" value="folders" />
         <input type="hidden" name="action" value="create" />
-        <?php field(false, $this->request, 'name', true, $this->locale->folder_name); ?>
+        <div class="block">
+            <?php field(false, $this->request, 'name', true, $this->locale->folder_name); ?>
+        </div>
+        <div class="block">
         <?php field(false, $this->request, 'path', true, $this->locale->folder_path); ?>
+        </div>
+        <div class="block">
         <?php field(false, $this->request, 'pattern', false, $this->locale->folder_pattern); ?>
+        </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
     </form>
@@ -186,7 +207,7 @@
         $str = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
         $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8') . '" '.$required.'/>';
         if ($label){
-            $str = "<label>".$label.": ". $str. "</label>";
+            $str = "<label>".$label." ". $str. "</label>";
         }
         echo $str;
     }

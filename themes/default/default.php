@@ -33,7 +33,7 @@
                 <?php endforeach; ?>
             </ul>
             <?php endif; ?>
-            <?php if ($this->request->is_local): ?>
+            <?php if ($this->request->is_admin): ?>
             <a class="settings-link" href="?page=settings"><?php echo $this->locale->settings?></a>
             <?php endif; ?>
             <h1><a href="/"><?php echo $this->clean($this->title); ?></a></h1>

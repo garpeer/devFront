@@ -34,6 +34,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 font-family: arial, sans;
 font-size: 12px;
 }
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
 .wrapper{
     min-width: 400px;
     max-width: 960px;
@@ -170,7 +178,7 @@ ul{
     margin-bottom:10px;
     color: #333;
 }
-.settings-page div{
+.settings-page form > div{
     padding: 5px 10px;
     background-color: rgba(255,255,255,0.5);
     border-radius: 10px;
@@ -204,8 +212,27 @@ ul{
     border-color: #FFD341;
 }
 .settings-page label{
-    margin-right: 20px;
     color: #333;
+}
+.settings-page h3{
+    font-weight: normal;   
+    font-size: 14px;
+    margin-top: 24px;
+    margin-right: 20px;
+    float:left;
+}
+.settings-page .block{
+    margin: 5px 20px 10px 0;
+    float:left;
+}
+.settings-page .block+input[type=submit]{
+    margin-top: 22px;
+    float:left;
+}
+.settings-page .block input,
+.settings-page .block select{
+    width: 100%;
+   display: block;
 }
 .settings-page select{
     min-width: 100px;

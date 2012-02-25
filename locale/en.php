@@ -32,6 +32,7 @@ return Array(
     'demote'=>'▼',
     'theme'=>'Theme',
     'locale'=>'Locale',
+    'allow_ips' => 'Allow admin from IPs',
     'create_project' => 'New project',
     'create_folder' => 'New folder',
     'project_name'=>'Name',

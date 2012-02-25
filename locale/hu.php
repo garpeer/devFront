@@ -32,6 +32,7 @@ return Array(
     'demote'=>'▼',
     'theme'=>'Téma',
     'locale'=>'Nyelv',
+    'allow_ips' => 'Beállítások elérése ezekről a címekről',
     'create_project'=>'Új projekt',    
     'create_folder'=>'Új mappa',   
     'project_name'=>'Név',
