@@ -282,43 +282,13 @@ class devFront {
                 }
                 break;
             case "delete":
-                if ( $data->confirm ){
-                    unset($this->config['folders'][$data->id]);
-                    $this->save_config($this->config);
-                    $this->notify($this->locale->item_deleted, 2);
-                }else{
-                    $confirm = '<form action="?page=settings" method="post">
-                        <p>'.$this->locale->confirm_delete.'
-                            <input type="submit" value="'.$this->locale->delete.'" />
-                            <input type="hidden" name="type" value="folders" />
-                            <input type="hidden" name="action" value="delete" />
-                            <input type="hidden" name="id" value="'.$data->id.'" />
-                            <input type="hidden" name="confirm" value="1" />
-                        </p>
-                        </form>';
-                    $this->notify( $confirm ,2);
-                }
+                $this->delete_item('folders', $data);
                 break;
             case 'promote':
-                if ($data->id > 0){
-                    $new_id = $data->id - 1;
-                    $tmp = $this->config['folders'][$new_id];
-                    $this->config['folders'][$new_id] = $this->config['folders'][$data->id];
-                    $this->config['folders'][$data->id] = $tmp;
-                    $this->save_config($this->config);
-                    $this->notify($this->locale->item_updated, 1);
-                }
+                $this->promote_item('folders',$data);
                 break;
             case 'demote':
-                $count = count ($this->config['folders']);
-                if ($data->id < $count){
-                    $new_id = $data->id + 1;
-                    $tmp = $this->config['folders'][$new_id];
-                    $this->config['folders'][$new_id] = $this->config['folders'][$data->id];
-                    $this->config['folders'][$data->id] = $tmp;
-                    $this->save_config($this->config);
-                    $this->notify($this->locale->item_updated, 1);
-                }
+                $this->demote_item('folders', $data);
                 break;
         }
     }
@@ -356,44 +326,53 @@ class devFront {
                 $this->notify($this->locale->item_updated, 1);
                 break;
             case "delete":
-                if ( $data->confirm ){
-                    unset($this->config['projects'][$data->id]);
-                    $this->save_config($this->config);
-                    $this->notify($this->locale->item_deleted, 2);
-                }else{
-                    $confirm = '<form action="?page=settings" method="post">
-                        <p>'.$this->locale->confirm_delete.'
-                            <input type="submit" value="'.$this->locale->delete.'" />
-                            <input type="hidden" name="type" value="projects" />
-                            <input type="hidden" name="action" value="delete" />
-                            <input type="hidden" name="id" value="'.$data->id.'" />
-                            <input type="hidden" name="confirm" value="1" />
-                        </p>
-                        </form>';
-                    $this->notify( $confirm ,2);
-                }
+                $this->delete_item('projects', $data);
                 break;
             case 'promote':
-                if ($data->id > 0){
-                    $new_id = $data->id - 1;
-                    $tmp = $this->config['projects'][$new_id];
-                    $this->config['projects'][$new_id] = $this->config['projects'][$data->id];
-                    $this->config['projects'][$data->id] = $tmp;
-                    $this->save_config($this->config);
-                    $this->notify($this->locale->item_updated, 1);
-                }
+                $this->promote_item('projects',$data);
                 break;
             case 'demote':
-                $count = count ($this->config['projects']);
-                if ($data->id < $count){
-                    $new_id = $data->id + 1;
-                    $tmp = $this->config['projects'][$new_id];
-                    $this->config['projects'][$new_id] = $this->config['projects'][$data->id];
-                    $this->config['projects'][$data->id] = $tmp;
-                    $this->save_config($this->config);
-                    $this->notify($this->locale->item_updated, 1);
-                }
+                $this->demote_item('projects', $data);
                 break;
+        }
+    }
+    protected function delete_item($type, $data){
+        if ( $data->confirm ){
+                unset($this->config[$type][$data->id]);
+                $this->save_config($this->config);
+                $this->notify($this->locale->item_deleted, 2);
+            }else{
+                $confirm = '<form action="?page=settings" method="post">
+                    <p>'.$this->locale->confirm_delete.'
+                        <input type="submit" value="'.$this->locale->delete.'" />
+                        <input type="hidden" name="type" value="'.$type.'" />
+                        <input type="hidden" name="action" value="delete" />
+                        <input type="hidden" name="id" value="'.$data->id.'" />
+                        <input type="hidden" name="confirm" value="1" />
+                    </p>
+                    </form>';
+                $this->notify( $confirm ,2);
+            }
+    }
+    protected function demote_item($type, $data){
+        $count = count ($this->config[$type]);
+        if ($data->id < $count){
+            $new_id = $data->id + 1;
+            $tmp = $this->config[$type][$new_id];
+            $this->config[$type][$new_id] = $this->config[$type][$data->id];
+            $this->config[$type][$data->id] = $tmp;
+            $this->save_config($this->config);
+            $this->notify($this->locale->item_updated, 1);
+        }
+    }
+    protected function promote_item($type, $data){
+        if ($data->id > 0){
+            $new_id = $data->id - 1;
+            $tmp = $this->config[$type][$new_id];
+            $this->config[$type][$new_id] = $this->config[$type][$data->id];
+            $this->config[$type][$data->id] = $tmp;
+            $this->save_config($this->config);
+            $this->notify($this->locale->item_updated, 1);
         }
     }
 
