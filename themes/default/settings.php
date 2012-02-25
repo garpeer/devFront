@@ -85,7 +85,10 @@
                     </td>
                     <td><?php field($project, $this->request, 'path', true) ?></td>
                     <td><?php field($project, $this->request, 'icon') ?></td>
-                    <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
+                    <td>
+                        <input type="submit" value="<?php echo $this->locale->save ?>"/>                        
+                        <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
+                    </td>
                 <?php else: ?>
                     <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['path']) ? $project['path'] : '') ?></td>
@@ -158,7 +161,10 @@
                     <td><?php field($folder, $this->request, 'path', true) ?></td>
                     <td><?php field($folder, $this->request, 'pattern') ?></td>
                     <td><?php field($folder, $this->request, 'exclude') ?></td>
-                    <td><input type="submit" value="<?php echo $this->locale->save ?>"/></td>
+                    <td>
+                        <input type="submit" value="<?php echo $this->locale->save ?>"/>
+                        <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
+                    </td>
                 <?php else: ?>
                     <td><?php echo $this->clean( isset($folder['name']) ? $folder['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['path']) ? $folder['path'] : '') ?></td>
