@@ -33,6 +33,7 @@ background: radial-gradient(top center, ellipse cover, #f2f5f6 0%,#e3eaed 37%,#c
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=0 ); /* IE6-9 fallback on horizontal gradient */
 font-family: arial, sans;
 font-size: 12px;
+cursor: default;
 }
 .clearfix:after {
 	content: ".";
