@@ -235,9 +235,9 @@ class devFront {
             $this->config['locale'] = $data->locale;
         }
         $this->save_config($this->config);
-
-        $this->notify($this->locale->item_updated, 1);
+        
         $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
+        $this->notify($this->locale->item_updated, 1);
     }
     /**
      * @brief save folders

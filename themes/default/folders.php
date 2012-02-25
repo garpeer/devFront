@@ -20,7 +20,7 @@
 ?>
 <?php
 foreach ($this->folders as $folder){
-    echo '<h2>'.$folder['name'].'</h2>';
+    echo '<h2>'.$this->clean( $folder['name'] ).'</h2>';
     if ($folder['dirs']){
         echo '<ul class="folders">';
         foreach ($folder['dirs'] as $name => $path){
