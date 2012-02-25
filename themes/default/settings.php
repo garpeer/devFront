@@ -64,6 +64,7 @@
                 </tr>
             </thead>
             <tbody>
+            <?php $count = count($this->projects); ?>
             <?php foreach ($this->projects as $id => $project):  ?>
                 <tr>
                 <?php if ($this->request->type=='projects' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
@@ -81,8 +82,19 @@
                     <td><?php echo $this->clean( isset($project['path']) ? $project['path'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['icon']) ? $project['icon'] : '')  ?></td>
                     <td>
-                        <a href="?page=settings&amp;type=projects&amp;action=edit&amp;id=<?php echo (int)$id; ?>"><?php echo $this->locale->edit ?></a>
-                        <a href="?page=settings&amp;type=projects&amp;action=delete&amp;id=<?php echo (int)$id; ?>"><?php echo $this->locale->delete ?></a>
+                        <?php if ($id > 0): ?>
+                        <a href="?page=settings&amp;type=projects&amp;action=promote&amp;id=<?php echo (int)$id; ?>" class="action-promote"><?php echo $this->locale->promote ?></a>
+                        <?php else: ?>
+                        <span class="action-promote action-inactive"><?php echo $this->locale->promote ?></span>
+                        <?php endif; ?>
+                        <?php if ($id < $count): ?>
+                        <a href="?page=settings&amp;type=projects&amp;action=demote&amp;id=<?php echo (int)$id; ?>" class="action-demote"><?php echo $this->locale->demote ?></a>
+                        <?php else: ?>
+                        <span class="action-demote action-inactive"><?php echo $this->locale->demote ?></span>
+                        <?php endif; ?>
+                        
+                        <a href="?page=settings&amp;type=projects&amp;action=edit&amp;id=<?php echo (int)$id; ?>" class="action-edit"><?php echo $this->locale->edit ?></a>
+                        <a href="?page=settings&amp;type=projects&amp;action=delete&amp;id=<?php echo (int)$id; ?>" class="action-delete"><?php echo $this->locale->delete ?></a>
                     </td>
                 <?php endif; ?>
                  </tr>

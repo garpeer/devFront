@@ -209,6 +209,14 @@ ul{
 .settings-page select{
     min-width: 100px;
 }
+.action-demote,
+.action-promote{
+    text-decoration: none;
+}
+.action-inactive{
+    cursor: default;
+    color: #555;
+}
 .notices{
     list-style: none;
     margin: 20px 50px;

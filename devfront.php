@@ -136,7 +136,7 @@ class devFront {
      * @brief index page
      */
     protected function index_page() {
-        if ($this->projects) {
+        if ($this->projects) { 
             $view = $this->get_view();
             $projects = $this->projects;
             foreach ($projects as &$project){
@@ -325,6 +325,27 @@ class devFront {
                 unset($this->config['projects'][$data->id]);
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_deleted, 2);
+                break;
+            case 'promote':
+                if ($data->id > 0){
+                    $new_id = $data->id - 1;
+                    $tmp = $this->config['projects'][$new_id];
+                    $this->config['projects'][$new_id] = $this->config['projects'][$data->id];
+                    $this->config['projects'][$data->id] = $tmp;
+                    $this->save_config($this->config);
+                    $this->notify($this->locale->item_updated, 1);
+                }
+                break;
+            case 'demote':
+                $count = count ($this->config['projects']);
+                if ($data->id < $count){
+                    $new_id = $data->id + 1;
+                    $tmp = $this->config['projects'][$new_id];
+                    $this->config['projects'][$new_id] = $this->config['projects'][$data->id];
+                    $this->config['projects'][$data->id] = $tmp;
+                    $this->save_config($this->config);
+                    $this->notify($this->locale->item_updated, 1);
+                }
                 break;
         }
     }

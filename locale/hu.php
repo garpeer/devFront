@@ -28,6 +28,8 @@ return Array(
     'cancel'=>'Mégsem',
     'edit'=>'Szerkesztés',
     'delete'=>'Törlés',
+    'promote'=>'▲',
+    'demote'=>'▼',
     'theme'=>'Téma',
     'locale'=>'Nyelv',
     'create_project'=>'Új projekt',    

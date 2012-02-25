@@ -28,6 +28,8 @@ return Array(
     'cancel'=>'Cancel',
     'edit'=>'Edit',
     'delete'=>'Delete',
+    'promote'=>'▲',
+    'demote'=>'▼',
     'theme'=>'Theme',
     'locale'=>'Locale',
     'create_project' => 'New project',
