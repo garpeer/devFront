@@ -33,7 +33,7 @@ class devView{
      * 
      * Values can be reached by $this->key in templates
      */
-    public function assign($key, $val){
+    public function assign( $key, $val ){
         $this->$key = $val;
     }
      /**
@@ -43,7 +43,7 @@ class devView{
      * 
      * Values can be reached by $this->key in templates
      */
-    public function assignRef($key, &$val){
+    public function assignRef( $key, &$val ){
         $this->$key =& $val;
     }
     /**
@@ -51,21 +51,26 @@ class devView{
      * @param string $template template file with extension
      * @return string
      */
-    public function fetch($template){
-        $__simpleview_template = $template ;
-        unset($template);
-        unset($dir);
+    public function fetch( $template ){
+        $this->devView_template = $template ;
+        unset( $template );
+        unset( $dir );
         ob_start();
-        require($__simpleview_template);
-        return (ob_get_clean());
+        require( $this->template_hider() );
+        return( ob_get_clean() );
         
+    }
+    protected function template_hider(){
+        $template = $this->devView_template;
+        unset( $this->devView_template );
+        return $template;
     }
     /**
      * @brief display view
      * @param string $template template file with extension
      */
-    public function display($template){
-        echo $this->fetch($template); 
+    public function display( $template ){
+        echo $this->fetch( $template ); 
         
     }
     /**
@@ -73,7 +78,7 @@ class devView{
      * @param string $str
      * @return string 
      */
-    public function clean($str){
-        return htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8');
+    public function clean( $str ){
+        return htmlspecialchars( html_entity_decode( $str, ENT_QUOTES, 'UTF-8' ), ENT_QUOTES, 'UTF-8' );
     }
 }
