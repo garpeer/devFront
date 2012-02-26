@@ -84,7 +84,19 @@
                         <?php field($project, $this->request, 'name', true) ?>
                     </td>
                     <td><?php field($project, $this->request, 'path', true) ?></td>
-                    <td><?php field($project, $this->request, 'icon') ?></td>
+                    <td>
+                        <select name="icon">
+                        <option value=""><?php echo $this->locale->default_image; ?></option>
+                            <?php if ($this->images):
+                                foreach($this->images as $image):
+                                ?>
+                                    <option value="<?php echo $this->clean( $image ); ?>" <?php if ($project['icon'] == $image){echo ' selected="selected"';}?>><?php echo $this->clean( $image ); ?></option>
+                                <?php
+                                endforeach;
+                            endif;
+                        ?>
+                    </select>        
+                    </td>
                     <td class="controls">
                         <input type="submit" value="<?php echo $this->locale->save ?>"/>                        
                         <a href="?page=settings"><?php echo $this->locale->cancel ?></a>

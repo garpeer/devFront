@@ -39,6 +39,7 @@ return Array(
     'project_name'=>'Name',
     'project_path'=>'URL',
     'project_icon'=>'Image',
+    'default_image' => 'Default',
     'folder_name'=>'Name',
     'folder_path'=>'Path',
     'folder_pattern'=>'Pattern',

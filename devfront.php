@@ -204,8 +204,24 @@ class devFront {
                 }
             }
         }
+        $dir = new DirectoryIterator($this->file('project_images'));
+        $images = Array();
+        $allowed = Array('jpg','jpeg','png','gif');
+        if ($dirs) {
+            foreach ($dir as $image) {
+                if ($image->isFile()){
+                    $filename = $image->getFilename();
+                    $fileinfo = pathinfo($filename);
+                    if (isset($fileinfo['extension']) && in_array($fileinfo['extension'], $allowed)) {
+                        $images[] = $filename;
+                    }
+                }
+            }
+        }
+        
         $view->assign('themes', $themes);
         $view->assign('locales', $locales);
+        $view->assign('images', $images);
         $view->assign('projects', $this->projects);
         $view->assign('folders', $this->folders);
         $view->assign('config', $this->config);

@@ -39,6 +39,7 @@ return Array(
     'project_name'=>'Név',
     'project_path'=>'URL',
     'project_icon'=>'Kép',
+    'default_image' => 'Alapértelmezett',
     'folder_name'=>'Név',
     'folder_path'=>'Mappa',
     'folder_pattern'=>'Pattern',
