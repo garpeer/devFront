@@ -238,6 +238,10 @@ ul{
 .settings-page select{
     min-width: 100px;
 }
+.settings-page .controls{
+    text-align: right;
+    white-space: nowrap;
+}
 .action-demote,
 .action-promote{
     text-decoration: none;

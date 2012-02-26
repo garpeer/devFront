@@ -23,7 +23,7 @@
 class devFront {
     /**
      * @brief configuration
-     * @var array
+     * @var devHelper
      */
     protected $config;
     /**
@@ -93,18 +93,22 @@ class devFront {
             $config = file_get_contents($this->configfile);
             if ($config) {
                 $config = unserialize($config);
+                if (is_object($config)){
+                    $this->config = $config;
+                }
+                if (is_array($config)){
+                    $this->config = new devHelper($config);
+                }
             }
-            if (!$config) {
+            if (!$this->config) {
                 throw new Exception('config file could not be read');
             } else {
-                $this->config = $config;
-                $this->config['allow_ip'] = isset($this->config['allow_ip']) ? $this->config['allow_ip'] : Array();
+                $this->config->allow_ip = isset($this->config->allow_ip) ? $this->config->allow_ip : Array();
             }
-            $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || in_array($_SERVER['REMOTE_ADDR'], $this->config['allow_ip']);
+            $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || in_array($_SERVER['REMOTE_ADDR'], $this->config->allow_ip);
             $this->request = new devHelper($_REQUEST);
-            
-            $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
-            $this->projects = isset($this->config['projects']) ? $this->config['projects'] : null;            
+            $this->locale = new devLocale(@include $this->file('locale/' . $this->config->locale . ".php"));
+            $this->projects = $this->config->projects;            
             if ($this->projects) {
                 foreach ($this->projects as &$project) {
                     if (!isset($project['path'])) {
@@ -115,7 +119,7 @@ class devFront {
                     }
                 }
             }
-            $this->folders = isset($this->config['folders']) ? $this->config['folders'] : null;
+            $this->folders = $this->config->folders;
             $page = $this->request->page ? $this->request->page . '_page' : 'index_page';
             if (method_exists($this, $page)) {
                 $this->$page();
@@ -227,16 +231,16 @@ class devFront {
      */
     protected function save_settings_basic(&$data) {
         if ($data->theme) {
-            $this->config['theme'] = $data->theme;
+            $this->config->theme = $data->theme;
         }
         if ($data->locale) {
-            $this->config['locale'] = $data->locale;
+            $this->config->locale = $data->locale;
         }
-        $this->config['allow_ip'] = array_flip(array_flip(explode(',',str_replace(' ','',$data->allow_ip))));
+        $this->config->allow_ip = array_flip(array_flip(explode(',',str_replace(' ','',$data->allow_ip))));
         
         $this->save_config($this->config);
         
-        $this->locale = new devLocale(@include $this->file('locale/' . $this->config['locale'] . ".php"));
+        $this->locale = new devLocale(@include $this->file('locale/' . $this->config->locale . ".php"));
         $this->notify($this->locale->item_updated, 1);
     }
     /**
@@ -254,7 +258,7 @@ class devFront {
                             'pattern' => $data->pattern,
                             'exclude' => explode(',',str_replace(' ','',$data->exclude))
                         );
-                        $this->config['folders'][] = $folder;
+                        $this->config->folders[] = $folder;
                         $data->delete('name');
                         $data->delete('path');
                         $data->delete('pattern');
@@ -276,7 +280,7 @@ class devFront {
                             'pattern' => $data->pattern,
                             'exclude' => explode(',',str_replace(' ','',$data->exclude))
                         );
-                        $this->config['folders'][$data->id] = $folder;
+                        $this->config->folders[$data->id] = $folder;
                         $this->save_config($this->config);
                         $this->notify($this->locale->item_updated, 1);
                     } else {
@@ -308,7 +312,7 @@ class devFront {
                         'path' => $data->path,
                         'icon' => $data->icon
                     );
-                    $this->config['projects'][] = $project;
+                    $this->config->projects[] = $project;
                     $data->delete('name');
                     $data->delete('path');
                     $data->delete('icon');
@@ -323,7 +327,7 @@ class devFront {
                         'path' => $data->path,
                         'icon' => $data->icon
                     );
-                    $this->config['projects'][$data->id] = $project;
+                    $this->config->projects[$data->id] = $project;
                 }
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_updated, 1);
@@ -341,7 +345,7 @@ class devFront {
     }
     protected function delete_item($type, $data){
         if ( $data->confirm ){
-                unset($this->config[$type][$data->id]);
+                unset($this->config->{$type}[$data->id]);
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_deleted, 2);
             }else{
@@ -358,12 +362,12 @@ class devFront {
             }
     }
     protected function demote_item($type, $data){
-        $count = count ($this->config[$type]);
+        $count = count ($this->config->{$type});
         if ($data->id < $count){
             $new_id = $data->id + 1;
-            $tmp = $this->config[$type][$new_id];
-            $this->config[$type][$new_id] = $this->config[$type][$data->id];
-            $this->config[$type][$data->id] = $tmp;
+            $tmp = $this->config->{$type}[$new_id];
+            $this->config->{$type}[$new_id] = $this->config->{$type}[$data->id];
+            $this->config->{$type}[$data->id] = $tmp;
             $this->save_config($this->config);
             $this->notify($this->locale->item_updated, 1);
         }
@@ -371,17 +375,17 @@ class devFront {
     protected function promote_item($type, $data){
         if ($data->id > 0){
             $new_id = $data->id - 1;
-            $tmp = $this->config[$type][$new_id];
-            $this->config[$type][$new_id] = $this->config[$type][$data->id];
-            $this->config[$type][$data->id] = $tmp;
+            $tmp = $this->config->{$type}[$new_id];
+            $this->config->{$type}[$new_id] = $this->config->{$type}[$data->id];
+            $this->config->{$type}[$data->id] = $tmp;
             $this->save_config($this->config);
             $this->notify($this->locale->item_updated, 1);
         }
     }
 
     protected function install() {
-        $this->config = Array('theme' => 'default', 'locale' => 'en');        
-        $this->config['folders']=Array(
+        $this->config = new devHelper(Array('theme' => 'default', 'locale' => 'en'));        
+        $this->config->folders=Array(
             Array(
                 'name'=>'www',
                 'path'=>$_SERVER['DOCUMENT_ROOT'],
@@ -411,8 +415,8 @@ class devFront {
      * @return string
      */
     protected function template($file) {
-        $template = $this->file("themes/" . $this->config['theme'] . "/" . $file);
-        if (!file_exists($template) && $this->config['theme'] != 'default'){
+        $template = $this->file("themes/" . $this->config->theme . "/" . $file);
+        if (!file_exists($template) && $this->config->theme != 'default'){
             $template = $this->file("themes/default/" . $file);
         }
         return $template;
@@ -422,14 +426,14 @@ class devFront {
      * @param array $config
      */
     protected function save_config($config) {
-        $config['projects'] = isset($config['projects']) ? array_values($config['projects']) : false;
-        $config['folders'] = isset($config['folders']) ? array_values($config['folders']) : false;        
+        $config->projects = $config->projects ? array_values($config->projects) : false;
+        $config->folders = $config->folders ? array_values($config->folders) : false;
         if (!file_put_contents($this->configfile, serialize($config))) {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
         } else {
             $this->config = $config;
-            $this->projects = $config['projects'];
-            $this->folders = $config['folders'];
+            $this->projects = $config->projects;
+            $this->folders = $config->folders;
         }
     }
     /**
@@ -438,7 +442,7 @@ class devFront {
      */
     protected function get_view() {
         $view = new devView();
-        $view->assign('theme_dir', $this->url . "themes/" . $this->config['theme'] . "/");
+        $view->assign('theme_dir', $this->url . "themes/" . $this->config->theme . "/");
         $view->assign('request', $this->request);
         $view->assignRef('locale', $this->locale);
         return $view;

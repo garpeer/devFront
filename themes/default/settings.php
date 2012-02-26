@@ -29,7 +29,7 @@
                     <?php if ($this->themes):
                         foreach($this->themes as $theme):
                         ?>
-                            <option value="<?php echo $this->clean( $theme ); ?>" <?php if ($this->config['theme'] == $theme){echo ' selected="selected"';}?>><?php echo $this->clean( $theme ); ?></option>
+                            <option value="<?php echo $this->clean( $theme ); ?>" <?php if ($this->config->theme == $theme){echo ' selected="selected"';}?>><?php echo $this->clean( $theme ); ?></option>
                     <?php
                         endforeach;
                         endif;
@@ -43,7 +43,7 @@
                     <?php if ($this->locales):
                         foreach($this->locales as $locale):
                         ?>
-                            <option value="<?php echo $this->clean( $locale ); ?>" <?php if ($this->config['locale'] == $locale){echo ' selected="selected"';}?>><?php echo $this->clean( $this->locale->$locale ); ?></option>
+                            <option value="<?php echo $this->clean( $locale ); ?>" <?php if ($this->config->locale == $locale){echo ' selected="selected"';}?>><?php echo $this->clean( $this->locale->$locale ); ?></option>
                     <?php
                         endforeach;
                         endif;
@@ -53,7 +53,7 @@
             </div>
             <div class="block">
                 <label><?php echo $this->locale->allow_ips ?>
-                <input type="text" name="allow_ip" value="<?php echo $this->clean(implode(', ',$this->config['allow_ip'])) ?>">            
+                <input type="text" name="allow_ip" value="<?php echo $this->clean(implode(', ',$this->config->allow_ip)) ?>">            
                 </label>
             </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
@@ -85,7 +85,7 @@
                     </td>
                     <td><?php field($project, $this->request, 'path', true) ?></td>
                     <td><?php field($project, $this->request, 'icon') ?></td>
-                    <td>
+                    <td class="controls">
                         <input type="submit" value="<?php echo $this->locale->save ?>"/>                        
                         <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
                     </td>
@@ -93,7 +93,7 @@
                     <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['path']) ? $project['path'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['icon']) ? $project['icon'] : '')  ?></td>
-                    <td>
+                    <td class="controls">
                         <?php if ($id > 0): ?>
                         <a href="?page=settings&amp;type=projects&amp;action=promote&amp;id=<?php echo (int)$id; ?>" class="action-promote"><?php echo $this->locale->promote ?></a>
                         <?php else: ?>
@@ -161,7 +161,7 @@
                     <td><?php field($folder, $this->request, 'path', true) ?></td>
                     <td><?php field($folder, $this->request, 'pattern') ?></td>
                     <td><?php field($folder, $this->request, 'exclude') ?></td>
-                    <td>
+                    <td class="controls">
                         <input type="submit" value="<?php echo $this->locale->save ?>"/>
                         <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
                     </td>
@@ -170,7 +170,7 @@
                     <td><?php echo $this->clean( isset($folder['path']) ? $folder['path'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['pattern']) ? $folder['pattern'] : '')  ?></td>
                     <td><?php echo $this->clean( isset($folder['exclude']) ? implode(', ',$folder['exclude']) : '')  ?></td>
-                    <td>
+                    <td class="controls">
                         <?php if ($id > 0): ?>
                         <a href="?page=settings&amp;type=folders&amp;action=promote&amp;id=<?php echo (int)$id; ?>" class="action-promote"><?php echo $this->locale->promote ?></a>
                         <?php else: ?>
