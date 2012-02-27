@@ -329,9 +329,9 @@ class devFront {
                         'icon' => $data->icon
                     );
                     $this->config->projects[] = $project;
-                    $data->delete('name');
-                    $data->delete('path');
-                    $data->delete('icon');
+                    unset($data->name);
+                    unset($data->path);
+                    unset($data->icon);
                 }
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_added,1);
