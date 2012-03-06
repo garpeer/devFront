@@ -105,7 +105,7 @@ class devFront {
             } else {
                 $this->config->allow_ip = isset($this->config->allow_ip) ? $this->config->allow_ip : Array();
             }
-            $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || in_array($_SERVER['REMOTE_ADDR'], $this->config->allow_ip);
+            $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' || in_array($_SERVER['REMOTE_ADDR'], $this->config->allow_ip);
             $this->request = new devHelper($_REQUEST);
             $this->locale = new devLocale(@include $this->file('locale/' . $this->config->locale . ".php"));
             $this->projects = $this->config->projects;            
