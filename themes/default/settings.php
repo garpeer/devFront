@@ -53,6 +53,7 @@
             </div>
             <div class="block">
                 <label><?php echo $this->locale->allow_ips ?>
+                    <span class="tooltip"><?php echo $this->locale->tooltip_allow_ips; ?></span>
                 <input type="text" name="allow_ip" value="<?php echo $this->clean(implode(', ',$this->config->allow_ip)) ?>">            
                 </label>
             </div>
@@ -134,10 +135,10 @@
         <input type="hidden" name="type" value="projects" />
         <input type="hidden" name="action" value="create" />        
             <div class="block">
-                <?php field(false, $this->request, 'name', true, $this->locale->project_name); ?>
+                <?php field(false, $this->request, 'name', true, $this->locale->project_name, $this->locale->tooltip_project_name); ?>
             </div>    
             <div class="block">
-                <?php field(false, $this->request, 'path', true, $this->locale->project_path); ?>
+                <?php field(false, $this->request, 'path', true, $this->locale->project_path, $this->locale->tooltip_project_path); ?>
             </div>   
             <div class="block">
                 <?php field(false, $this->request, 'icon', false, $this->locale->project_icon); ?>
@@ -226,7 +227,7 @@
     </form>
 </div>
 <?php
-    function field($data, $post, $key, $required=false, $label = null){
+    function field($data, $post, $key, $required=false, $label = null, $tooltip = null){
         $required = $required ? 'required' : '';
         $str = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
         if (is_array($str)){
@@ -234,7 +235,8 @@
         }
         $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8') . '" '.$required.'/>';
         if ($label){
-            $str = "<label>".$label." ". $str. "</label>";
+            $tooltip = $tooltip ? '<span class="tooltip">'. $tooltip. '</span>' : '';
+            $str = "<label>".$label.$tooltip. $str. "</label>";
         }
         echo $str;
     }

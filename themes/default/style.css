@@ -214,6 +214,24 @@ ul{
 }
 .settings-page label{
     color: #555;
+    position: relative;
+    display: inline-block;
+}
+label .tooltip{
+    display:none;
+    box-sizing: border-box;
+    min-width: 100%;
+    max-width: 300px;
+    padding:5px 10px;
+    border: 1px solid #777;
+    color: #AAA;
+    top: 40px;
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    font-size: 90%;
+}   
+label:hover .tooltip{
+    display: block;
 }
 .settings-page h3{
     font-weight: normal;   

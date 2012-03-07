@@ -49,5 +49,6 @@ return Array(
     'item_updated' => 'Item updated.',
     'item_deleted' => 'Item deleted',
     'en'=>'English',
-    'hu'=>'Hungarian'
+    'hu'=>'Hungarian',
+    'tooltip_allow_ips' => 'Comma separated list of IP addresses from where this settings page can be reached.'
 );
