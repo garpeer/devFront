@@ -258,6 +258,9 @@ class devFront {
         if ($data->locale) {
             $this->config->locale = $data->locale;
         }
+        if ($data->tooltips) {
+            $this->config->tooltips = $data->tooltips;
+        }
         $this->config->allow_ip = array_flip(array_flip(explode(',',str_replace(' ','',$data->allow_ip))));
         
         $this->save_config($this->config);
