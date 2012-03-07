@@ -22,7 +22,7 @@ if ($this->projects){
     <ul class="projects">';
     foreach ($this->projects as $id => $name){  
         $style = $name['icon'] ? 'style="background-image: url('. $this->clean( $name['icon'] ) .');"' : '';
-        echo '<li '.$style.'><a href="'.$this->clean( $name['path'] ).'">'.$this->clean( $name['name'] ).'</a></li>';
+        echo '<li '.$style.'><a href="'.$this->clean( $name['formatted_path'] ).'">'.$this->clean( $name['name'] ).'</a></li>';
     }
     echo '</ul>';
 }

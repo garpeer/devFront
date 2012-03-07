@@ -214,23 +214,24 @@ ul{
 }
 .settings-page label{
     color: #555;
-    position: relative;
-    display: inline-block;
 }
-label .tooltip{
+.tooltip-wrap{
     display:none;
+    position: relative;
+    width: 100%;
+}
+.tooltip{
     box-sizing: border-box;
-    min-width: 100%;
-    max-width: 300px;
+    width: 100%;
     padding:5px 10px;
-    border: 1px solid #777;
-    color: #AAA;
-    top: 40px;
-    background-color: rgba(0,0,0,0.8);
     position: absolute;
-    font-size: 90%;
+    background-color: rgba(50,50,0,0.8) !important;
+    color:#CCCC99;
+    border: 1px solid #606000;
+    word-wrap: break-word;
 }   
-label:hover .tooltip{
+input:focus+.tooltip-wrap,
+input:hover+.tooltip-wrap{
     display: block;
 }
 .settings-page h3{

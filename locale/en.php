@@ -50,5 +50,11 @@ return Array(
     'item_deleted' => 'Item deleted',
     'en'=>'English',
     'hu'=>'Hungarian',
-    'tooltip_allow_ips' => 'Comma separated list of IP addresses from where this settings page can be reached.'
+    'tooltip_allow_ips' => 'Comma separated list of IP addresses from where this settings page can be reached. (127.0.0.1 and ::1 are always allowed to access.)',
+    'tooltip_project_name' => 'Name to display for the project.',
+    'tooltip_project_path' => 'URL of the projects main page. The token %HOST% will be replaced with the current host.',
+    'tooltip_folder_name' => 'Name to display for the folder.',
+    'tooltip_folder_path' => 'Filesystem path to the folder.',
+    'tooltip_folder_pattern' => 'The pattern describing how to create the URLs for the folders. %HOST% is replace with the current hostname, %FOLDER% is replaced with the actual folders name.<br />(eg: %HOST%/docs/%FOLDER%/html/index.html)',
+    'tooltip_folder_exclude' => 'Comma separated list of folder names to exclude',
 );

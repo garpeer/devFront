@@ -53,8 +53,8 @@
             </div>
             <div class="block">
                 <label><?php echo $this->locale->allow_ips ?>
-                    <span class="tooltip"><?php echo $this->locale->tooltip_allow_ips; ?></span>
-                <input type="text" name="allow_ip" value="<?php echo $this->clean(implode(', ',$this->config->allow_ip)) ?>">            
+                    <input type="text" name="allow_ip" value="<?php echo $this->clean(implode(', ',$this->config->allow_ip)) ?>" />  
+                    <?php echo tooltip($this->locale->tooltip_allow_ips); ?> 
                 </label>
             </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
@@ -82,9 +82,9 @@
                         <input type="hidden" name="type" value="projects" />
                         <input type="hidden" name="action" value="update" />
                         <input type="hidden" name="id" value="<?php echo $id; ?>" />
-                        <?php field($project, $this->request, 'name', true) ?>
+                        <?php field($project, $this->request, 'name', true, null, $this->locale->tooltip_project_name) ?>
                     </td>
-                    <td><?php field($project, $this->request, 'path', true) ?></td>
+                    <td><?php field($project, $this->request, 'path', true, null, $this->locale->tooltip_project_path) ?></td>
                     <td>
                         <select name="icon">
                         <option value=""><?php echo $this->locale->default_image; ?></option>
@@ -104,7 +104,7 @@
                     </td>
                 <?php else: ?>
                     <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
-                    <td><?php echo $this->clean( isset($project['path']) ? $project['path'] : '') ?></td>
+                    <td><?php echo $this->clean( isset($project['formatted_path']) ? $project['formatted_path'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['icon']) ? $project['icon'] : '')  ?></td>
                     <td class="controls">
                         <?php if ($id > 0): ?>
@@ -171,9 +171,9 @@
                         <input type="hidden" name="id" value="<?php echo $id; ?>" />
                         <?php field($folder, $this->request, 'name', true) ?>
                     </td>
-                    <td><?php field($folder, $this->request, 'path', true) ?></td>
-                    <td><?php field($folder, $this->request, 'pattern') ?></td>
-                    <td><?php field($folder, $this->request, 'exclude') ?></td>
+                    <td><?php field($folder, $this->request, 'path', true, null, $this->locale->tooltip_folder_path) ?></td>
+                    <td><?php field($folder, $this->request, 'pattern', false, null, $this->locale->tooltip_folder_pattern) ?></td>
+                    <td><?php field($folder, $this->request, 'exclude', false, null, $this->locale->tooltip_folder_exclude) ?></td>
                     <td class="controls">
                         <input type="submit" value="<?php echo $this->locale->save ?>"/>
                         <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
@@ -181,7 +181,7 @@
                 <?php else: ?>
                     <td><?php echo $this->clean( isset($folder['name']) ? $folder['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['path']) ? $folder['path'] : '') ?></td>
-                    <td><?php echo $this->clean( isset($folder['pattern']) ? $folder['pattern'] : '')  ?></td>
+                    <td><?php echo $this->clean( isset($folder['formatted_pattern']) ? $folder['formatted_pattern'] : '')  ?></td>
                     <td><?php echo $this->clean( isset($folder['exclude']) ? implode(', ',$folder['exclude']) : '')  ?></td>
                     <td class="controls">
                         <?php if ($id > 0): ?>
@@ -211,16 +211,16 @@
         <input type="hidden" name="type" value="folders" />
         <input type="hidden" name="action" value="create" />
         <div class="block">
-            <?php field(false, $this->request, 'name', true, $this->locale->folder_name); ?>
+            <?php field(false, $this->request, 'name', true, $this->locale->folder_name, $this->locale->tooltip_folder_name); ?>
         </div>
         <div class="block">
-        <?php field(false, $this->request, 'path', true, $this->locale->folder_path); ?>
+        <?php field(false, $this->request, 'path', true, $this->locale->folder_path, $this->locale->tooltip_folder_path); ?>
         </div>
         <div class="block">
-        <?php field(false, $this->request, 'pattern', false, $this->locale->folder_pattern); ?>
+        <?php field(false, $this->request, 'pattern', false, $this->locale->folder_pattern, $this->locale->tooltip_folder_pattern); ?>
         </div>
         <div class="block">
-        <?php field(false, $this->request, 'exclude', false, $this->locale->folder_exclude); ?>
+        <?php field(false, $this->request, 'exclude', false, $this->locale->folder_exclude, $this->locale->tooltip_folder_exclude); ?>
         </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>
@@ -234,9 +234,14 @@
             $str = implode(', ',$str);
         }
         $str = '<input type="text" name="'.$key.'" value="'. htmlspecialchars(html_entity_decode($str, ENT_QUOTES, 'UTF-8'), ENT_QUOTES,'UTF-8') . '" '.$required.'/>';
-        if ($label){
-            $tooltip = $tooltip ? '<span class="tooltip">'. $tooltip. '</span>' : '';
-            $str = "<label>".$label.$tooltip. $str. "</label>";
+        if ($tooltip){
+            $str .= tooltip($tooltip);
+        }
+        if ($label){            
+            $str = "<label>".$label. $str. "</label>";
         }
         echo $str;
+    }
+    function tooltip($text){
+        return '<small class="tooltip-wrap"><span class="tooltip">'. $text. '</span></small>';
     }

@@ -49,5 +49,13 @@ return Array(
     'item_updated' => 'Elem sikeresen frissítve.',
     'item_deleted' => 'Elem törölve.',
     'en'=>'Angol',
-    'hu'=>'Magyar'
+    'hu'=>'Magyar',
+    'tooltip_allow_ips' => 'Azoknak az IP címeknek a vesszővel elválasztott listája, amelyekről engedélyezett a beállítások módosítása. (A 127.0.0.1 és ::1 címekről mindíg elérhető.)',
+    'tooltip_project_name' => 'A projekt megjelenítendő neve.',
+    'tooltip_project_path' => 'A projekt URL-je. A %HOST% token használható a jelenlegi hoszt helyettesítésére.',
+    'tooltip_folder_name' => 'A mappa megjelenítendő neve.',
+    'tooltip_folder_path' => 'A mappa elérési útvonala.',
+    'tooltip_folder_pattern' => 'A mappa URL-je. A %HOST% token használható a jelenlegi hoszt helyettesítésére, a %FOLDER% pedig az egyes mappák nevét jelőli.<br />(Példa: %HOST%/doku/%FOLDER%/html/index.html)',
+    'tooltip_folder_exclude' => 'A listázásból kihagyandó almappák vesszővel elválasztott listája.',
+
 );

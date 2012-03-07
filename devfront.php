@@ -113,6 +113,9 @@ class devFront {
                 foreach ($this->projects as &$project) {
                     if (!isset($project['path'])) {
                         $project['path'] = "";
+                        $project['formatted_path'] = "";
+                    }else{
+                        $project['formatted_path'] = str_replace('%HOST%', 'http://'.$this->servername, $project['path']);
                     }
                     if (!isset($project['icon'])) {
                         $project['icon'] = false;
@@ -120,6 +123,11 @@ class devFront {
                 }
             }
             $this->folders = $this->config->folders;
+            if ($this->folders){
+                foreach ($this->folders as &$folder){
+                    $folder['formatted_pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
+                }
+            }
             $page = $this->request->page ? $this->request->page . '_page' : 'index_page';
             if (method_exists($this, $page)) {
                 $this->$page();
@@ -146,22 +154,20 @@ class devFront {
             $projects = $this->projects;
             foreach ($projects as &$project){
                 $project['icon'] = $project['icon'] ? $this->url . "project_images/".$project['icon']: false;
-                $project['path'] = isset($project['path']) ? str_replace('%HOST%', 'http://'.$this->servername, $project['path']) : '';
             }
             $view->assign('projects', $projects);
             $view->display($this->template('projects.php'));
         }
         if ($this->folders) {
 
-            foreach ($this->folders as &$folder) {                
-                $folder['pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
+            foreach ($this->folders as &$folder) {
                 $exclude = isset($folder['exclude']) ? $folder['exclude'] : null;
                 if (file_exists($folder['path'])){
                     $dirs = new DirectoryIterator($folder['path']);
                     foreach ($dirs as $dir){
                         $dirname = $dir->getBasename();
                         if ( (!$exclude || !in_array($dirname, $exclude)) && $dir->isDir() && !$dir->isDot() ){
-                            $folder['dirs'][$dirname] = str_replace('%FOLDER%', $dirname, $folder['pattern']);
+                            $folder['dirs'][$dirname] = str_replace('%FOLDER%', $dirname, $folder['formatted_pattern']);
                         }
                     }
                 }else{
