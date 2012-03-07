@@ -105,7 +105,7 @@
                 <?php else: ?>
                     <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['formatted_path']) ? $project['formatted_path'] : '') ?></td>
-                    <td><?php echo $this->clean( isset($project['icon']) ? $project['icon'] : '')  ?></td>
+                    <td><?php echo $this->clean( (isset($project['icon']) && $project['icon']) ? $project['icon'] : $this->locale->default_image)  ?></td>
                     <td class="controls">
                         <?php if ($id > 0): ?>
                         <a href="?page=settings&amp;type=projects&amp;action=promote&amp;id=<?php echo (int)$id; ?>" class="action-promote"><?php echo $this->locale->promote ?></a>
@@ -241,7 +241,7 @@
 </div>
 <?php
     function field($data, $post, $key, $required=false, $label = null, $tooltip = null){
-        $required = $required ? 'required' : '';
+        $required = $required ? 'required="required" ' : '';
         $str = $post->$key ? $post->key : (isset($data[$key]) ? $data[$key] : '');
         if (is_array($str)){
             $str = implode(', ',$str);
