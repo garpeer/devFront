@@ -141,7 +141,20 @@
                 <?php field(false, $this->request, 'path', true, $this->locale->project_path, $this->locale->tooltip_project_path); ?>
             </div>   
             <div class="block">
-                <?php field(false, $this->request, 'icon', false, $this->locale->project_icon); ?>
+                <label><?php echo $this->locale->project_icon; ?>
+                    <select name="icon">
+                        <option value=""><?php echo $this->locale->default_image; ?></option>
+                            <?php if ($this->images):
+                                foreach($this->images as $image):
+                                ?>
+                                    <option value="<?php echo $this->clean( $image ); ?>" <?php if ($this->request->icon == $image){echo ' selected="selected"';}?>><?php echo $this->clean( $image ); ?></option>
+                                <?php
+                                endforeach;
+                            endif;
+                        ?>
+                    </select>
+                </label>
+                <?php //field(false, $this->request, 'icon', false, $this->locale->project_icon); ?>
             </div>
         <input type="submit" value="<?php echo $this->locale->save ?>"/>
         </div>

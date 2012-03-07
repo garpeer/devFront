@@ -374,6 +374,7 @@ class devFront {
                 $confirm = '<form action="?page=settings" method="post">
                     <p>'.$this->locale->confirm_delete.'
                         <input type="submit" value="'.$this->locale->delete.'" />
+                        <a href="?page=settings">'.$this->locale->cancel.'</a>
                         <input type="hidden" name="type" value="'.$type.'" />
                         <input type="hidden" name="action" value="delete" />
                         <input type="hidden" name="id" value="'.$data->id.'" />
