@@ -75,9 +75,9 @@
             </thead>
             <tbody>
             <?php $count = count($this->projects); ?>
-            <?php foreach ($this->projects as $id => $project):  ?>
-                <tr>
+            <?php foreach ($this->projects as $id => $project):  ?>                
                 <?php if ($this->request->type=='projects' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
+                    <tr class="active">
                     <td>
                         <input type="hidden" name="type" value="projects" />
                         <input type="hidden" name="action" value="update" />
@@ -103,6 +103,7 @@
                         <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
                     </td>
                 <?php else: ?>
+                    <tr>
                     <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['formatted_path']) ? $project['formatted_path'] : '') ?></td>
                     <td><?php echo $this->clean( (isset($project['icon']) && $project['icon']) ? $project['icon'] : $this->locale->default_image)  ?></td>
@@ -175,9 +176,9 @@
             </thead>
             <tbody>
             <?php $count = count($this->folders); ?>
-            <?php foreach ($this->folders as $id => $folder):  ?>
-                <tr>
+            <?php foreach ($this->folders as $id => $folder):  ?>                
                 <?php if ($this->request->type=='folders' && $this->request->action=='edit' && (string)$this->request->id == (string)$id):?>
+                    <tr class="active">
                     <td>
                         <input type="hidden" name="type" value="folders" />
                         <input type="hidden" name="action" value="update" />
@@ -192,6 +193,7 @@
                         <a href="?page=settings"><?php echo $this->locale->cancel ?></a>
                     </td>
                 <?php else: ?>
+                    <tr>
                     <td><?php echo $this->clean( isset($folder['name']) ? $folder['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['path']) ? $folder['path'] : '') ?></td>
                     <td><?php echo $this->clean( isset($folder['formatted_pattern']) ? $folder['formatted_pattern'] : '')  ?></td>
