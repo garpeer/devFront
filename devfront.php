@@ -108,26 +108,8 @@ class devFront {
             $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' || in_array($_SERVER['REMOTE_ADDR'], $this->config->allow_ip);
             $this->request = new devHelper($_REQUEST);
             $this->locale = new devLocale(@include $this->file('locale/' . $this->config->locale . ".php"));
-            $this->projects = $this->config->projects;            
-            if ($this->projects) {
-                foreach ($this->projects as &$project) {
-                    if (!isset($project['path'])) {
-                        $project['path'] = "";
-                        $project['formatted_path'] = "";
-                    }else{
-                        $project['formatted_path'] = str_replace('%HOST%', 'http://'.$this->servername, $project['path']);
-                    }
-                    if (!isset($project['icon'])) {
-                        $project['icon'] = false;
-                    }
-                }
-            }
-            $this->folders = $this->config->folders;
-            if ($this->folders){
-                foreach ($this->folders as &$folder){
-                    $folder['formatted_pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
-                }
-            }
+            $this->projects = $this->formatProjects($this->config->projects);
+            $this->folders = $this->formatFolders($this->config->folders);            
             $page = $this->request->page ? $this->request->page . '_page' : 'index_page';
             if (method_exists($this, $page)) {
                 $this->$page();
@@ -144,6 +126,30 @@ class devFront {
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
+    }
+    protected function formatProjects($projects){
+        if ($projects) {
+            foreach ($projects as &$project) {
+                if (!isset($project['path'])) {
+                    $project['path'] = "";
+                    $project['formatted_path'] = "";
+                }else{
+                    $project['formatted_path'] = str_replace('%HOST%', 'http://'.$this->servername, $project['path']);
+                }
+                if (!isset($project['icon'])) {
+                    $project['icon'] = false;
+                }
+            }
+        }
+        return $projects;
+    }
+    protected function formatFolders($folders){
+        if ($folders){
+            foreach ($folders as &$folder){
+                $folder['formatted_pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
+            }
+        }
+        return $folders;    
     }
     /**
      * @brief index page
@@ -183,6 +189,7 @@ class devFront {
      * @brief settings page
      */
     protected function settings_page() {
+        
         if (!$this->request->is_admin){
             header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
             echo '<h2>403 - Forbidden</h2>';
@@ -458,8 +465,8 @@ class devFront {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
         } else {
             $this->config = $config;
-            $this->projects = $config->projects;
-            $this->folders = $config->folders;
+            $this->projects = $this->formatProjects($config->projects);
+            $this->folders = $this->formatFolders($config->folders);   
         }
     }
     /**
