@@ -97,7 +97,10 @@ ul{
     background-color: #000;
     background-color: rgba(0,0,0,0.2);
     background-image: url(images/default.png); /* gear clipart from http://www.clker.com/clipart-15720.html */
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;    
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 .projects a{    
     list-style: none;
@@ -110,6 +113,8 @@ ul{
     text-decoration: none;
     border: 1px solid #777;
     border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     background-position: left top;
     background-image: url(images/glossy.png);
     background-repeat: no-repeat;
