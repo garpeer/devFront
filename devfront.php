@@ -40,7 +40,7 @@ class devFront {
      * @brief devfront url for images & css
      * @var string
      */
-    protected $url;
+    protected $url;    
     /**
      * @brief configuration file
      * @var string
@@ -82,9 +82,8 @@ class devFront {
             require 'classes/locale.php';
             require 'classes/helper.php';
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
-
             $this->url = $url ? $url : '/devfront/';
-            $this->configfile = $this->file($this->configfile);
+            $this->configfile = $this->file($this->configfile);	    
             ob_start();
             if (!file_exists($this->configfile)) {
                 $this->install();
@@ -118,7 +117,11 @@ class devFront {
                 echo '<h2>404 - Page not Found</h2>';
             }
             $content = ob_get_clean();
+
+	    $home = explode('?',$_SERVER["REQUEST_URI"]);
+	    $home = $home[0];
             $view = $this->get_view();
+	    $view->assign('home',$home);
             $view->assign('title', $this->servername);
             $view->assign('content', $content);
             $view->assign('notices', $this->notices);

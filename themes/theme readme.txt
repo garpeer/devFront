@@ -5,6 +5,7 @@ default.php
 default page template
 
 available variables:
+$this->home
 $this->title
 $this->theme_dir
 $ŧhis->request
