@@ -34,9 +34,9 @@
             </ul>
             <?php endif; ?>
             <?php if ($this->request->is_admin): ?>
-            <a class="settings-link" href="?page=settings"><?php echo $this->locale->settings?></a>
+            <a class="settings-link" href="?page=settings"><?php echo $this->locale->settings; ?></a>
             <?php endif; ?>
-            <h1><a href="/"><?php echo $this->clean($this->title); ?></a></h1>
+            <h1><a href="<?php echo $this->home; ?>"><?php echo $this->clean($this->title); ?></a></h1>
             <?php
             echo $this->content;
             $from = "2012";

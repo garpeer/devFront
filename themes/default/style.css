@@ -97,7 +97,10 @@ ul{
     background-color: #000;
     background-color: rgba(0,0,0,0.2);
     background-image: url(images/default.png); /* gear clipart from http://www.clker.com/clipart-15720.html */
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;    
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 .projects a{    
     list-style: none;
@@ -110,6 +113,8 @@ ul{
     text-decoration: none;
     border: 1px solid #777;
     border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     background-position: left top;
     background-image: url(images/glossy.png);
     background-repeat: no-repeat;
@@ -261,6 +266,9 @@ input:hover+.tooltip-wrap{
     text-align: right;
     white-space: nowrap;
 }
+.settings-page tr.active{
+    background-color: rgba(255,255,255,0.08);
+}
 .action-demote,
 .action-promote{
     text-decoration: none;
@@ -289,8 +297,26 @@ input:hover+.tooltip-wrap{
     margin: 0;
 }
 .notices input[type=submit]{
-    margin-left: 20px;
+    margin: 0 10px 0 40px;
     cursor: pointer;
+    background: none;
+    padding: 0;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    opacity: 0.9;
+}
+.notices a{
+    opacity: 0.7;
+    color: #fff;
+    text-decoration: none;
+}
+.notices input[type=submit]:hover,
+.notices input[type=submit]:focus,
+.notices a:hover,
+.notices a:focus{
+    text-decoration: underline;
+    opacity: 1.0;
 }
 .notice-level-1{
     background-color: rgba(0,255,0,0.1) !important;

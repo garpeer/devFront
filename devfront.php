@@ -82,9 +82,8 @@ class devFront {
             require 'classes/locale.php';
             require 'classes/helper.php';
             $this->servername = $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'localhost';
-
             $this->url = $url ? $url : '/devfront/';
-            $this->configfile = $this->file($this->configfile);
+            $this->configfile = $this->file($this->configfile);	    
             ob_start();
             if (!file_exists($this->configfile)) {
                 $this->install();
@@ -119,7 +118,11 @@ class devFront {
                 echo '<h2>404 - Page not Found</h2>';
             }
             $content = ob_get_clean();
+
+	    $home = explode('?',$_SERVER["REQUEST_URI"]);
+	    $home = $home[0];
             $view = $this->get_view();
+	    $view->assign('home',$home);
             $view->assign('title', $this->servername);
             $view->assign('content', $content);
             $view->assign('notices', $this->notices);
@@ -198,6 +201,7 @@ class devFront {
      * @brief settings page
      */
     protected function settings_page() {
+        
         if (!$this->request->is_admin){
             header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
             echo '<h2>403 - Forbidden</h2>';
@@ -470,7 +474,7 @@ class devFront {
      * @param array $config
      */
     protected function save_config($config) {
-        $config->projects = $config->projects ? array_values($config->projects) : false;        
+        $config->projects = $config->projects ? array_values($config->projects) : false;
         $config->folders = $config->folders ? array_values($config->folders) : false;
         if (!file_put_contents($this->configfile, serialize($config))) {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
