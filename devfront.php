@@ -108,26 +108,9 @@ class devFront {
             $_REQUEST['is_admin'] = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' || in_array($_SERVER['REMOTE_ADDR'], $this->config->allow_ip);
             $this->request = new devHelper($_REQUEST);
             $this->locale = new devLocale(@include $this->file('locale/' . $this->config->locale . ".php"));
-            $this->projects = $this->config->projects;            
-            if ($this->projects) {
-                foreach ($this->projects as &$project) {
-                    if (!isset($project['path'])) {
-                        $project['path'] = "";
-                        $project['formatted_path'] = "";
-                    }else{
-                        $project['formatted_path'] = str_replace('%HOST%', 'http://'.$this->servername, $project['path']);
-                    }
-                    if (!isset($project['icon'])) {
-                        $project['icon'] = false;
-                    }
-                }
-            }
-            $this->folders = $this->config->folders;
-            if ($this->folders){
-                foreach ($this->folders as &$folder){
-                    $folder['formatted_pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
-                }
-            }
+            $this->projects = $this->formatProjects($this->config->projects);      
+           
+            $this->folders = $this->formatFolders($this->config->folders);            
             $page = $this->request->page ? $this->request->page . '_page' : 'index_page';
             if (method_exists($this, $page)) {
                 $this->$page();
@@ -145,16 +128,48 @@ class devFront {
             echo 'Error: ' . $e->getMessage();
         }
     }
+    protected function formatProjects($projects){
+         if ($projects){
+            foreach ($projects as &$project) {
+                if (!isset($project['path'])) {
+                    $project['path'] = "";
+                    $project['formatted_path'] = "";
+                }else{
+                    $project['formatted_path'] = str_replace('%HOST%', 'http://'.$this->servername, $project['path']);
+                }
+                if (!isset($project['icon'])) {
+                    $project['icon'] = false;
+                }
+                if (!isset($project['active']) || $project['active'] == true){                        
+                    $project['active'] = true;
+                }else{
+                    $project['active'] = false;
+                }
+            }
+        }
+        return $projects;
+    }
+    protected function formatFolders($folders){
+        if ($folders){
+            foreach ($folders as &$folder){
+                $folder['formatted_pattern'] = isset($folder['pattern']) ? str_replace('%HOST%', 'http://'.$this->servername, $folder['pattern']) : '';
+            }
+        }
+        return $folders;
+    }
     /**
      * @brief index page
      */
     protected function index_page() {
         if ($this->projects) {
             $view = $this->get_view();
-            $projects = $this->projects;
-            foreach ($projects as &$project){
-                $project['icon'] = $project['icon'] ? $this->url . "project_images/".$project['icon']: false;
-            }
+            $projects = array();
+            foreach ($this->projects as $project){
+                if ($project['active']){
+                    $project['icon'] = $project['icon'] ? $this->url . "project_images/".$project['icon']: false;
+                    $projects[] = $project;
+                }                
+            }            
             $view->assign('projects', $projects);
             $view->display($this->template('projects.php'));
         }
@@ -335,12 +350,14 @@ class devFront {
                     $project = Array(
                         'name' => $data->name,
                         'path' => $data->path,
-                        'icon' => $data->icon
+                        'icon' => $data->icon,
+                        'active' => $data->active ? true : false
                     );
                     $this->config->projects[] = $project;
                     unset($data->name);
                     unset($data->path);
                     unset($data->icon);
+                    unset($data->active);
                 }
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_added,1);
@@ -350,10 +367,11 @@ class devFront {
                     $project = Array(
                         'name' => $data->name,
                         'path' => $data->path,
-                        'icon' => $data->icon
+                        'icon' => $data->icon,
+                        'active' => $data->active ? true : false
                     );
                     $this->config->projects[$data->id] = $project;
-                }
+                }                
                 $this->save_config($this->config);
                 $this->notify($this->locale->item_updated, 1);
                 break;
@@ -452,14 +470,14 @@ class devFront {
      * @param array $config
      */
     protected function save_config($config) {
-        $config->projects = $config->projects ? array_values($config->projects) : false;
+        $config->projects = $config->projects ? array_values($config->projects) : false;        
         $config->folders = $config->folders ? array_values($config->folders) : false;
         if (!file_put_contents($this->configfile, serialize($config))) {
             throw new Exception('failed to save config data to' . $this->file($this->configfile));
         } else {
             $this->config = $config;
-            $this->projects = $config->projects;
-            $this->folders = $config->folders;
+            $this->projects = $this->formatProjects($config->projects);
+            $this->folders = $this->formatFolders($config->folders);
         }
     }
     /**

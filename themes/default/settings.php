@@ -70,6 +70,7 @@
                     <td><?php echo $this->locale->project_name ?></td>
                     <td><?php echo $this->locale->project_path ?></td>
                     <td><?php echo $this->locale->project_icon ?></td>
+                    <td><?php echo $this->locale->project_active ?></td>
                     <td>&#160;</td>
                 </tr>
             </thead>
@@ -96,7 +97,9 @@
                                 endforeach;
                             endif;
                         ?>
-                    </select>        
+                    </select>
+                    <td>
+                        <input type="checkbox" name="active" <?php if ($project['active']){ echo 'checked="checked"';} ?>/>
                     </td>
                     <td class="controls">
                         <input type="submit" value="<?php echo $this->locale->save ?>"/>                        
@@ -106,6 +109,7 @@
                     <td><?php echo $this->clean( isset($project['name']) ? $project['name'] : '') ?></td>
                     <td><?php echo $this->clean( isset($project['formatted_path']) ? $project['formatted_path'] : '') ?></td>
                     <td><?php echo $this->clean( (isset($project['icon']) && $project['icon']) ? $project['icon'] : $this->locale->default_image)  ?></td>
+                    <td><?php echo $project['active'] ? $this->locale->project_is_active : $this->locale->project_is_inactive;  ?></td>
                     <td class="controls">
                         <?php if ($id > 0): ?>
                         <a href="?page=settings&amp;type=projects&amp;action=promote&amp;id=<?php echo (int)$id; ?>" class="action-promote"><?php echo $this->locale->promote ?></a>
