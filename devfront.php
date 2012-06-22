@@ -437,7 +437,7 @@ class devFront {
             Array(
                 'name'=>'www',
                 'path'=>$_SERVER['DOCUMENT_ROOT'],
-                'pattern'=>'/%s/'
+                'pattern'=>'/%FOLDER%/'
             )
         );
         $this->save_config($this->config);       
