@@ -355,7 +355,7 @@ class devFront {
                         'name' => $data->name,
                         'path' => $data->path,
                         'icon' => $data->icon,
-                        'active' => $data->active ? true : false
+                        'active' => true
                     );
                     $this->config->projects[] = $project;
                     unset($data->name);
