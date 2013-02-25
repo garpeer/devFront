@@ -119,6 +119,7 @@ ul{
     background-image: url(images/glossy.png);
     background-repeat: no-repeat;
     outline: none;
+    text-shadow: 1px 1px 1px #000;
 }
 .projects a:hover,
 .projects a:focus{
